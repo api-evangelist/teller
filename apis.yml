@@ -1,0 +1,42 @@
+aid: teller
+name: Teller
+description: >-
+  Teller is a unified banking API providing real-time access to bank accounts,
+  transactions, and identity data across financial institutions.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Unified API
+  - Banking
+  - Financial Data
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/teller/refs/heads/main/apis.yml
+created: '2026-03-27'
+modified: '2026-03-27'
+specificationVersion: '0.19'
+apis:
+  - aid: teller:teller
+    name: Teller
+    description: >-
+      Teller is a unified banking API providing real-time access to bank
+      accounts, transactions, and identity data across financial institutions.
+    humanURL: https://teller.io/
+    tags:
+      - Unified API
+      - Banking
+      - Open Banking
+    properties:
+      - type: Documentation
+        url: https://teller.io/docs
+      - type: Getting Started
+        url: https://teller.io/docs/guides/getting-started
+common:
+  - type: Website
+    url: https://teller.io/
+  - type: Documentation
+    url: https://teller.io/docs
+  - type: GitHub Organization
+    url: https://github.com/tellerhq
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
