@@ -6,9 +6,9 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Unified API
   - Banking
   - Financial Data
+  - Unified API
 url: >-
   https://raw.githubusercontent.com/api-evangelist/teller/refs/heads/main/apis.yml
 created: '2026-03-27'
@@ -22,9 +22,9 @@ apis:
       accounts, transactions, and identity data across financial institutions.
     humanURL: https://teller.io/
     tags:
-      - Unified API
       - Banking
       - Open Banking
+      - Unified API
     properties:
       - type: Documentation
         url: https://teller.io/docs
