@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.teller.io/schemas/account",
+  "title": "Teller Account",
+  "description": "A bank account enrolled via Teller Connect",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Teller's unique identifier for the account"
+    },
+    "enrollment_id": {
+      "type": "string",
+      "description": "Identifier for the enrollment session"
+    },
+    "name": {
+      "type": "string",
+      "description": "Account name as reported by the financial institution"
+    },
+    "last_four": {
+      "type": "string",
+      "description": "Last four digits of the account number",
+      "pattern": "^[0-9]{4}$"
+    },
+    "type": {
+      "type": "string",
+      "description": "Account type",
+      "enum": ["checking", "savings", "credit_card", "money_market", "mortgage", "loan"]
+    },
+    "subtype": {
+      "type": "string",
+      "description": "More specific account subtype"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code",
+      "default": "USD"
+    },
+    "status": {
+      "type": "string",
+      "description": "Account status",
+      "enum": ["open", "closed"]
+    },
+    "institution": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" }
+      },
+      "required": ["id", "name"]
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "self": { "type": "string", "format": "uri" },
+        "transactions": { "type": "string", "format": "uri" },
+        "balances": { "type": "string", "format": "uri" },
+        "details": { "type": "string", "format": "uri" }
+      }
+    }
+  },
+  "required": ["id", "enrollment_id", "name", "type", "currency", "status", "institution"]
+}

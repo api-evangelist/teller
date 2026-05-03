@@ -1,0 +1,112 @@
+{
+  "title": "Teller API Structure",
+  "description": "JSON structure documentation for the Teller unified banking API",
+  "baseUrl": "https://api.teller.io",
+  "authentication": {
+    "type": "bearer + mTLS",
+    "description": "Access token as HTTP Basic Auth username, plus Teller client certificate for mTLS"
+  },
+  "resources": {
+    "GET /identity": {
+      "description": "List accounts with owner identity information",
+      "authentication": "required",
+      "response": {
+        "type": "array",
+        "items": {
+          "account_fields": ["id", "enrollment_id", "name", "last_four", "type", "subtype", "currency", "status", "institution", "links"],
+          "owners_array": {
+            "type": "array",
+            "owner_fields": ["type", "names", "addresses", "phone_numbers", "emails"]
+          }
+        }
+      }
+    },
+    "GET /accounts": {
+      "description": "List all authorized bank accounts",
+      "authentication": "required",
+      "response": {
+        "type": "array",
+        "item_fields": ["id", "enrollment_id", "name", "last_four", "type", "subtype", "currency", "status", "institution", "links"]
+      }
+    },
+    "GET /accounts/{account_id}": {
+      "description": "Get a single bank account",
+      "authentication": "required",
+      "path_params": { "account_id": "string" },
+      "response": {
+        "type": "object",
+        "fields": ["id", "enrollment_id", "name", "last_four", "type", "subtype", "currency", "status", "institution", "links"]
+      }
+    },
+    "DELETE /accounts/{account_id}": {
+      "description": "Revoke authorization for a single account",
+      "authentication": "required",
+      "path_params": { "account_id": "string" },
+      "response": { "status": 204 }
+    },
+    "DELETE /accounts": {
+      "description": "Revoke authorization for all accounts in the enrollment",
+      "authentication": "required",
+      "response": { "status": 204 }
+    },
+    "GET /accounts/{account_id}/details": {
+      "description": "Get routing and account numbers",
+      "authentication": "required",
+      "path_params": { "account_id": "string" },
+      "response": {
+        "type": "object",
+        "fields": {
+          "account_id": "string",
+          "account_number": "string",
+          "routing_numbers": { "ach": "string", "wire": "string" }
+        }
+      }
+    },
+    "GET /accounts/{account_id}/balances": {
+      "description": "Get available and ledger balances",
+      "authentication": "required",
+      "path_params": { "account_id": "string" },
+      "response": {
+        "type": "object",
+        "fields": {
+          "account_id": "string",
+          "available": "string (decimal)",
+          "ledger": "string (decimal)",
+          "links": { "self": "uri", "account": "uri" }
+        }
+      }
+    },
+    "GET /accounts/{account_id}/transactions": {
+      "description": "List account transactions",
+      "authentication": "required",
+      "path_params": { "account_id": "string" },
+      "query_params": {
+        "count": "integer (optional)",
+        "from_id": "string (optional, for pagination)",
+        "start_date": "date ISO 8601 (optional)",
+        "end_date": "date ISO 8601 (optional)"
+      },
+      "response": {
+        "type": "array",
+        "item_fields": ["id", "account_id", "amount", "date", "description", "status", "type", "running_balance", "details", "links"]
+      }
+    },
+    "GET /accounts/{account_id}/transactions/{transaction_id}": {
+      "description": "Get a single transaction",
+      "authentication": "required",
+      "path_params": { "account_id": "string", "transaction_id": "string" },
+      "response": {
+        "type": "object",
+        "fields": ["id", "account_id", "amount", "date", "description", "status", "type", "running_balance", "details", "links"]
+      }
+    },
+    "GET /institutions": {
+      "description": "List supported financial institutions",
+      "authentication": "none",
+      "response": {
+        "type": "array",
+        "item_fields": ["id", "name", "products"]
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api.teller.io/schemas/transaction",
+  "title": "Teller Transaction",
+  "description": "A financial transaction on a bank account",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Teller transaction identifier"
+    },
+    "account_id": {
+      "type": "string",
+      "description": "Account this transaction belongs to"
+    },
+    "amount": {
+      "type": "string",
+      "description": "Transaction amount as signed decimal string (negative = debit, positive = credit)",
+      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 transaction date"
+    },
+    "description": {
+      "type": "string",
+      "description": "Bank statement description text"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["posted", "pending"],
+      "description": "Whether the transaction has settled"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "card_payment", "transfer", "atm", "deposit", "withdrawal",
+        "digital_payment", "wire", "check", "interest", "fee", "other"
+      ],
+      "description": "Transaction type classification"
+    },
+    "running_balance": {
+      "type": "string",
+      "description": "Running account balance after this transaction (posted transactions only)"
+    },
+    "details": {
+      "type": "object",
+      "description": "Enriched transaction details",
+      "properties": {
+        "processing_status": {
+          "type": "string",
+          "enum": ["pending", "complete"]
+        },
+        "category": {
+          "type": "string",
+          "description": "Transaction category (dining, groceries, utilities, travel, etc.)"
+        },
+        "counterparty": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "type": {
+              "type": "string",
+              "enum": ["person", "organization"]
+            }
+          }
+        }
+      }
+    },
+    "links": {
+      "type": "object",
+      "properties": {
+        "self": { "type": "string", "format": "uri" },
+        "account": { "type": "string", "format": "uri" }
+      }
+    }
+  },
+  "required": ["id", "account_id", "amount", "date", "description", "status", "type"]
+}

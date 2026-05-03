@@ -1,0 +1,64 @@
+{
+  "title": "List Transactions Example",
+  "description": "List recent transactions for a bank account filtered by date range",
+  "request": {
+    "method": "GET",
+    "url": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000/transactions?start_date=2026-04-01&end_date=2026-04-30&count=5",
+    "headers": {
+      "Authorization": "Basic {base64(ACCESS_TOKEN:)}",
+      "Teller-Version": "2020-10-12"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "id": "txn_o4bpq3r87cif0mhfjq000",
+        "account_id": "acc_o3lgp2n76bhe9lfeip000",
+        "amount": "-42.50",
+        "date": "2026-04-15",
+        "description": "WHOLE FOODS MARKET",
+        "status": "posted",
+        "type": "card_payment",
+        "running_balance": "1234.56",
+        "details": {
+          "processing_status": "complete",
+          "category": "groceries",
+          "counterparty": {
+            "name": "Whole Foods Market",
+            "type": "organization"
+          }
+        },
+        "links": {
+          "self": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000/transactions/txn_o4bpq3r87cif0mhfjq000",
+          "account": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000"
+        }
+      },
+      {
+        "id": "txn_o4bpq3r87cif0mhfjq001",
+        "account_id": "acc_o3lgp2n76bhe9lfeip000",
+        "amount": "2500.00",
+        "date": "2026-04-01",
+        "description": "DIRECT DEPOSIT EMPLOYER",
+        "status": "posted",
+        "type": "deposit",
+        "running_balance": "3234.56",
+        "details": {
+          "processing_status": "complete",
+          "category": "income",
+          "counterparty": {
+            "name": "Acme Corp",
+            "type": "organization"
+          }
+        },
+        "links": {
+          "self": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000/transactions/txn_o4bpq3r87cif0mhfjq001",
+          "account": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000"
+        }
+      }
+    ]
+  }
+}

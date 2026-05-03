@@ -1,0 +1,27 @@
+{
+  "title": "Get Account Balances Example",
+  "description": "Retrieve real-time available and ledger balances for a bank account",
+  "request": {
+    "method": "GET",
+    "url": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000/balances",
+    "headers": {
+      "Authorization": "Basic {base64(ACCESS_TOKEN:)}",
+      "Teller-Version": "2020-10-12"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "account_id": "acc_o3lgp2n76bhe9lfeip000",
+      "available": "1234.56",
+      "ledger": "1234.56",
+      "links": {
+        "self": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000/balances",
+        "account": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000"
+      }
+    }
+  }
+}

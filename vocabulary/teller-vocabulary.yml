@@ -1,0 +1,101 @@
+vocabulary:
+  provider: Teller
+  description: >-
+    Core vocabulary for the Teller unified banking API, covering open banking
+    concepts, financial data access, account management, and security model.
+  tags:
+    - Banking
+    - Financial Data
+    - Open Banking
+  terms:
+    - term: Enrollment
+      definition: >-
+        The process by which a user connects their bank account through Teller Connect,
+        generating an access token that authorizes the application to read financial data.
+        Each enrollment has a unique enrollment_id and may contain multiple accounts.
+      tags:
+        - Authentication
+        - Connection
+    - term: Access Token
+      definition: >-
+        A credential generated when a user successfully completes Teller Connect enrollment.
+        Used as the HTTP Basic Auth username (with empty password) for API requests. Must
+        be paired with a Teller client certificate (mTLS) to function.
+      tags:
+        - Authentication
+        - Security
+    - term: mTLS (Mutual TLS)
+      definition: >-
+        Mutual Transport Layer Security — Teller's primary authentication mechanism for
+        verifying the API caller's identity. Teller issues client certificates that both
+        parties use to authenticate each other. Required for development and production.
+      tags:
+        - Authentication
+        - Security
+    - term: Teller Connect
+      definition: >-
+        Teller's bank account linking UI component available as React, iOS, and Android SDKs.
+        Users authenticate with their bank through Teller Connect, which returns an access
+        token to the application upon successful enrollment.
+      tags:
+        - Integration
+        - SDK
+    - term: Account
+      definition: >-
+        A bank account (checking, savings, credit card, money market, mortgage, or loan)
+        at a supported financial institution, accessible via Teller after user enrollment.
+        Identified by a Teller-assigned account ID.
+      tags:
+        - Banking
+        - Resource
+    - term: Transaction
+      definition: >-
+        A financial event on a bank account, including card payments, transfers, deposits,
+        withdrawals, ATM transactions, wires, and checks. Transactions have a posted or
+        pending status and include enriched data (category, counterparty) when processed.
+      tags:
+        - Banking
+        - Financial Data
+    - term: Running Balance
+      definition: >-
+        The account balance immediately after a posted transaction settles. Only available
+        on posted transactions (not pending) and reflects the chronological balance history.
+      tags:
+        - Balance
+        - Transactions
+    - term: Available Balance
+      definition: >-
+        The amount of funds immediately accessible for spending, after accounting for
+        pending transactions and holds. Returned in the account balances endpoint.
+      tags:
+        - Balance
+        - Financial Data
+    - term: Ledger Balance
+      definition: >-
+        The settled account balance reflecting only fully posted transactions, excluding
+        pending items. Also known as the book balance.
+      tags:
+        - Balance
+        - Financial Data
+    - term: Teller-Version
+      definition: >-
+        An HTTP request header specifying the API version to use. The default version is
+        2020-10-12. Teller provides a 72-hour rollback window when versions are updated.
+      tags:
+        - API Versioning
+    - term: Institution
+      definition: >-
+        A financial institution (bank, credit union, or brokerage) supported by Teller.
+        Each institution has a Teller ID, name, and a list of supported products
+        (verify, balance, transactions, identity).
+      tags:
+        - Banking
+        - Financial Institution
+    - term: Counterparty
+      definition: >-
+        The other party in a financial transaction — either a person or an organization
+        (merchant). Enriched by Teller's transaction processing and available in the
+        details object of posted transactions.
+      tags:
+        - Merchant Data
+        - Transactions

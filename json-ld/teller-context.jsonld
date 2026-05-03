@@ -1,0 +1,74 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "fibo": "https://spec.edmcouncil.org/fibo/ontology/",
+    "teller": "https://teller.io/vocabulary/",
+    "name": "schema:name",
+    "description": "schema:description",
+    "BankAccount": {
+      "@id": "schema:BankAccount",
+      "@context": {
+        "accountId": "teller:accountId",
+        "enrollmentId": "teller:enrollmentId",
+        "accountType": "schema:accountType",
+        "lastFour": "teller:lastFour",
+        "currency": "schema:currency",
+        "status": "teller:accountStatus",
+        "institution": "teller:institution"
+      }
+    },
+    "BankAccountDetails": {
+      "@id": "teller:BankAccountDetails",
+      "@context": {
+        "accountNumber": "schema:accountId",
+        "routingNumbers": "teller:routingNumbers"
+      }
+    },
+    "AccountBalance": {
+      "@id": "schema:MonetaryAmount",
+      "@context": {
+        "available": "teller:availableBalance",
+        "ledger": "teller:ledgerBalance",
+        "currency": "schema:currency"
+      }
+    },
+    "BankTransaction": {
+      "@id": "schema:MoneyTransfer",
+      "@context": {
+        "transactionId": "teller:transactionId",
+        "amount": "schema:amount",
+        "date": "schema:validFrom",
+        "description": "schema:description",
+        "status": "teller:transactionStatus",
+        "transactionType": "teller:transactionType",
+        "category": "teller:category",
+        "counterparty": "teller:counterparty"
+      }
+    },
+    "AccountOwner": {
+      "@id": "schema:Person",
+      "@context": {
+        "names": "schema:alternateName",
+        "addresses": "schema:address",
+        "phoneNumbers": "schema:telephone",
+        "emails": "schema:email"
+      }
+    },
+    "FinancialInstitution": {
+      "@id": "schema:BankOrCreditUnion",
+      "@context": {
+        "institutionId": "teller:institutionId",
+        "products": "teller:supportedProducts"
+      }
+    },
+    "Enrollment": {
+      "@id": "teller:Enrollment",
+      "@context": {
+        "enrollmentId": "teller:enrollmentId",
+        "accessToken": "teller:accessToken",
+        "institution": "teller:institution"
+      }
+    }
+  }
+}

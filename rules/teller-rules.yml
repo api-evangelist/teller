@@ -1,0 +1,109 @@
+rules:
+  teller-operation-summary-title-case:
+    description: All operation summaries must use Title Case
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-zA-Z0-9 ]*$"
+
+  teller-operation-must-have-operationid:
+    description: All operations must have an operationId
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: operationId
+      function: truthy
+
+  teller-operationid-camelcase:
+    description: Operation IDs should use camelCase
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  teller-server-must-be-api-teller:
+    description: Server URL must use api.teller.io
+    severity: error
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://api\\.teller\\.io"
+
+  teller-account-id-path-parameter:
+    description: Account ID path parameters should be named account_id
+    severity: warn
+    given: "$.paths['/accounts/{account_id}'][*].parameters[?(@.in == 'path')]"
+    then:
+      field: name
+      function: enumeration
+      functionOptions:
+        values:
+          - account_id
+
+  teller-response-must-have-401:
+    description: All authenticated operations must handle 401 Unauthorized
+    severity: error
+    given: "$.paths['/accounts'][get].responses"
+    then:
+      field: '401'
+      function: truthy
+
+  teller-response-must-have-429:
+    description: GET operations should handle 429 rate limiting
+    severity: warn
+    given: "$.paths[*].get.responses"
+    then:
+      field: '429'
+      function: truthy
+
+  teller-delete-returns-204:
+    description: DELETE operations must return 204 No Content
+    severity: error
+    given: "$.paths[*].delete.responses"
+    then:
+      field: '204'
+      function: truthy
+
+  teller-amount-as-string:
+    description: >-
+      Financial amounts should be represented as string type to preserve precision
+    severity: warn
+    given: "$.components.schemas[*].properties.amount"
+    then:
+      field: type
+      function: enumeration
+      functionOptions:
+        values:
+          - string
+
+  teller-transaction-status-enum:
+    description: Transaction status must use approved enum values
+    severity: error
+    given: "$.components.schemas.Transaction.properties.status"
+    then:
+      field: enum
+      function: truthy
+
+  teller-account-type-enum:
+    description: Account type must use approved enum values
+    severity: error
+    given: "$.components.schemas.Account.properties.type"
+    then:
+      field: enum
+      function: truthy
+
+  teller-bearer-mtls-security-scheme:
+    description: Security scheme must use bearer type for mTLS access tokens
+    severity: error
+    given: "$.components.securitySchemes.BearerMtls"
+    then:
+      field: type
+      function: enumeration
+      functionOptions:
+        values:
+          - http

@@ -1,0 +1,40 @@
+{
+  "title": "List Accounts Example",
+  "description": "List all bank accounts authorized in the current Teller enrollment",
+  "request": {
+    "method": "GET",
+    "url": "https://api.teller.io/accounts",
+    "headers": {
+      "Authorization": "Basic {base64(ACCESS_TOKEN:)}",
+      "Teller-Version": "2020-10-12"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": [
+      {
+        "id": "acc_o3lgp2n76bhe9lfeip000",
+        "enrollment_id": "enr_o3lgp2n76bhe9lfeip000",
+        "name": "Platinum Checking",
+        "last_four": "4321",
+        "type": "checking",
+        "subtype": "checking",
+        "currency": "USD",
+        "status": "open",
+        "institution": {
+          "id": "chase",
+          "name": "Chase"
+        },
+        "links": {
+          "self": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000",
+          "transactions": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000/transactions",
+          "balances": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000/balances",
+          "details": "https://api.teller.io/accounts/acc_o3lgp2n76bhe9lfeip000/details"
+        }
+      }
+    ]
+  }
+}

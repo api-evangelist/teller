@@ -1,0 +1,600 @@
+openapi: 3.0.3
+info:
+  title: Teller API
+  description: >-
+    Teller is a unified banking API providing real-time access to bank accounts,
+    transactions, balances, identity data, and payment initiation across US financial
+    institutions. Connect to thousands of banks and credit unions through a single
+    integration. Teller uses mutual TLS (mTLS) for application authentication and
+    access tokens obtained via Teller Connect for per-account authorization.
+  version: 2020-10-12
+  contact:
+    name: Teller Developer Support
+    url: https://teller.io/docs
+  termsOfService: https://teller.io/legal/terms-of-service
+servers:
+  - url: https://api.teller.io
+    description: Teller Production API
+tags:
+  - name: Identity
+    description: Account holder identity information
+  - name: Accounts
+    description: Bank account management
+  - name: Transactions
+    description: Account transaction history
+  - name: Institutions
+    description: Supported financial institutions
+paths:
+  /identity:
+    get:
+      operationId: listIdentity
+      summary: List Account Identity
+      description: >-
+        Returns an array of accounts with beneficial owner identity information
+        attached, including names, addresses, phone numbers, and email addresses.
+      tags:
+        - Identity
+      security:
+        - BearerMtls: []
+      parameters:
+        - name: Teller-Version
+          in: header
+          schema:
+            type: string
+            default: '2020-10-12'
+          description: API version header for requesting a specific version.
+      responses:
+        '200':
+          description: Identity information retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountIdentity'
+        '401':
+          description: Unauthorized - invalid or missing access token
+        '429':
+          description: Rate limit exceeded
+  /accounts:
+    get:
+      operationId: listAccounts
+      summary: List Accounts
+      description: Returns all bank accounts authorized by the current access token enrollment.
+      tags:
+        - Accounts
+      security:
+        - BearerMtls: []
+      parameters:
+        - name: Teller-Version
+          in: header
+          schema:
+            type: string
+          description: API version header.
+      responses:
+        '200':
+          description: Accounts retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Rate limit exceeded
+    delete:
+      operationId: deleteAccounts
+      summary: Delete Accounts
+      description: >-
+        Removes authorization to access all accounts in the enrollment. Does not
+        delete the actual bank accounts.
+      tags:
+        - Accounts
+      security:
+        - BearerMtls: []
+      responses:
+        '204':
+          description: Authorization revoked for all accounts
+        '401':
+          description: Unauthorized
+  /accounts/{account_id}:
+    get:
+      operationId: getAccount
+      summary: Get Account
+      description: Retrieve a single bank account by ID.
+      tags:
+        - Accounts
+      security:
+        - BearerMtls: []
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The account identifier.
+      responses:
+        '200':
+          description: Account retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Account not found
+    delete:
+      operationId: deleteAccount
+      summary: Delete Account
+      description: >-
+        Removes authorization to access the specified account. Does not delete
+        the actual bank account.
+      tags:
+        - Accounts
+      security:
+        - BearerMtls: []
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The account identifier.
+      responses:
+        '204':
+          description: Authorization revoked for account
+        '401':
+          description: Unauthorized
+        '404':
+          description: Account not found
+  /accounts/{account_id}/details:
+    get:
+      operationId: getAccountDetails
+      summary: Get Account Details
+      description: >-
+        Retrieve account details including routing number and account number for
+        the specified bank account.
+      tags:
+        - Accounts
+      security:
+        - BearerMtls: []
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The account identifier.
+      responses:
+        '200':
+          description: Account details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDetails'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Account not found
+  /accounts/{account_id}/balances:
+    get:
+      operationId: getAccountBalances
+      summary: Get Account Balances
+      description: Retrieve current available and ledger balances for the specified account.
+      tags:
+        - Accounts
+      security:
+        - BearerMtls: []
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The account identifier.
+      responses:
+        '200':
+          description: Account balances retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountBalances'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Account not found
+  /accounts/{account_id}/transactions:
+    get:
+      operationId: listTransactions
+      summary: List Transactions
+      description: >-
+        Returns a list of all transactions belonging to the specified account.
+        Supports pagination and date range filtering.
+      tags:
+        - Transactions
+      security:
+        - BearerMtls: []
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The account identifier.
+        - name: count
+          in: query
+          schema:
+            type: integer
+          description: Maximum number of transactions to return.
+        - name: from_id
+          in: query
+          schema:
+            type: string
+          description: Paginate backward from this transaction ID.
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter transactions on or after this ISO 8601 date.
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filter transactions on or before this ISO 8601 date.
+      responses:
+        '200':
+          description: Transactions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Account not found
+        '429':
+          description: Rate limit exceeded
+  /accounts/{account_id}/transactions/{transaction_id}:
+    get:
+      operationId: getTransaction
+      summary: Get Transaction
+      description: Retrieve a single transaction by ID.
+      tags:
+        - Transactions
+      security:
+        - BearerMtls: []
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The account identifier.
+        - name: transaction_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The transaction identifier.
+      responses:
+        '200':
+          description: Transaction retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Transaction not found
+  /institutions:
+    get:
+      operationId: listInstitutions
+      summary: List Institutions
+      description: >-
+        Returns all supported financial institutions and the Teller products available
+        for each. Does not require authentication.
+      tags:
+        - Institutions
+      responses:
+        '200':
+          description: Institutions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Institution'
+components:
+  securitySchemes:
+    BearerMtls:
+      type: http
+      scheme: bearer
+      description: >-
+        Access token obtained via Teller Connect when a user successfully enrolls their
+        bank account. Must be used together with a Teller client certificate (mTLS).
+        Encoded using HTTP Basic Auth scheme: ACCESS_TOKEN as username, empty password.
+  schemas:
+    Account:
+      type: object
+      description: A bank account enrolled via Teller Connect
+      properties:
+        id:
+          type: string
+          description: Teller's unique identifier for the account
+        enrollment_id:
+          type: string
+          description: Identifier for the enrollment (user session)
+        name:
+          type: string
+          description: Name of the account as reported by the institution
+        last_four:
+          type: string
+          description: Last four digits of the account number
+        type:
+          type: string
+          description: Account type
+          enum:
+            - checking
+            - savings
+            - credit_card
+            - money_market
+            - mortgage
+            - loan
+        subtype:
+          type: string
+          description: Account subtype
+        currency:
+          type: string
+          description: Currency code (e.g. USD)
+        status:
+          type: string
+          description: Account status
+          enum:
+            - open
+            - closed
+        institution:
+          $ref: '#/components/schemas/InstitutionRef'
+        links:
+          $ref: '#/components/schemas/AccountLinks'
+    AccountLinks:
+      type: object
+      properties:
+        self:
+          type: string
+          format: uri
+        transactions:
+          type: string
+          format: uri
+        balances:
+          type: string
+          format: uri
+        details:
+          type: string
+          format: uri
+    AccountDetails:
+      type: object
+      description: Sensitive account details including routing and account numbers
+      properties:
+        account_id:
+          type: string
+        account_number:
+          type: string
+          description: Full account number
+        routing_numbers:
+          type: object
+          properties:
+            ach:
+              type: string
+              description: ACH routing number
+            wire:
+              type: string
+              description: Wire transfer routing number
+    AccountBalances:
+      type: object
+      description: Current account balance information
+      properties:
+        account_id:
+          type: string
+        available:
+          type: string
+          description: Available balance as a string decimal
+        ledger:
+          type: string
+          description: Ledger/posted balance as a string decimal
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              format: uri
+            account:
+              type: string
+              format: uri
+    AccountIdentity:
+      type: object
+      description: Account with attached owner identity information
+      allOf:
+        - $ref: '#/components/schemas/Account'
+        - type: object
+          properties:
+            owners:
+              type: array
+              items:
+                $ref: '#/components/schemas/Owner'
+    Owner:
+      type: object
+      description: Beneficial owner of a bank account
+      properties:
+        type:
+          type: string
+          enum:
+            - person
+            - organization
+            - unknown
+        names:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                  - name
+                  - alias
+              data:
+                type: string
+        addresses:
+          type: array
+          items:
+            type: object
+            properties:
+              primary:
+                type: boolean
+              data:
+                type: object
+                properties:
+                  street:
+                    type: string
+                  city:
+                    type: string
+                  region:
+                    type: string
+                  postal_code:
+                    type: string
+                  country:
+                    type: string
+        phone_numbers:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                  - mobile
+                  - home
+                  - work
+                  - unknown
+              data:
+                type: string
+        emails:
+          type: array
+          items:
+            type: object
+            properties:
+              data:
+                type: string
+                format: email
+    Transaction:
+      type: object
+      description: A financial transaction on a bank account
+      properties:
+        id:
+          type: string
+          description: Teller transaction identifier
+        account_id:
+          type: string
+          description: Account this transaction belongs to
+        amount:
+          type: string
+          description: Transaction amount as signed decimal string (negative = debit)
+        date:
+          type: string
+          format: date
+          description: ISO 8601 transaction date
+        description:
+          type: string
+          description: Bank statement text
+        status:
+          type: string
+          enum:
+            - posted
+            - pending
+          description: Whether the transaction has settled
+        type:
+          type: string
+          description: Transaction type
+          enum:
+            - card_payment
+            - transfer
+            - atm
+            - deposit
+            - withdrawal
+            - digital_payment
+            - wire
+            - check
+            - interest
+            - fee
+            - other
+        running_balance:
+          type: string
+          description: Running account balance after this transaction (posted only)
+        details:
+          $ref: '#/components/schemas/TransactionDetails'
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              format: uri
+            account:
+              type: string
+              format: uri
+    TransactionDetails:
+      type: object
+      properties:
+        processing_status:
+          type: string
+          enum:
+            - pending
+            - complete
+        category:
+          type: string
+          description: >-
+            Transaction category (e.g. dining, groceries, utilities, travel, entertainment)
+        counterparty:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the merchant or counterparty
+            type:
+              type: string
+              enum:
+                - person
+                - organization
+    Institution:
+      type: object
+      description: A supported financial institution
+      properties:
+        id:
+          type: string
+          description: Teller identifier for the institution
+        name:
+          type: string
+          description: Institution name
+        products:
+          type: array
+          description: Teller products available for this institution
+          items:
+            type: string
+            enum:
+              - verify
+              - balance
+              - transactions
+              - identity
+    InstitutionRef:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
