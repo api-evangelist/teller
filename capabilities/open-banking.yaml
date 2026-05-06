@@ -1,244 +1,379 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
   label: Teller Open Banking
-  description: >-
-    Unified open banking workflow combining account management, transaction history,
-    balance monitoring, and identity verification through the Teller API. Enables
-    fintech applications, personal finance tools, and lending platforms to access
+  description: Unified open banking workflow combining account management, transaction history, balance monitoring, and identity
+    verification through the Teller API. Enables fintech applications, personal finance tools, and lending platforms to access
     real-time financial data across US banks and credit unions.
   tags:
-    - Accounts
-    - Banking
-    - Financial Data
-    - FinTech
-    - Identity Verification
-    - Open Banking
-    - Teller
-    - Transactions
-  created: "2026-05-03"
-  modified: "2026-05-03"
-
+  - Accounts
+  - Banking
+  - Financial Data
+  - FinTech
+  - Identity Verification
+  - Open Banking
+  - Teller
+  - Transactions
+  created: '2026-05-03'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      TELLER_ACCESS_TOKEN: TELLER_ACCESS_TOKEN
-
+- namespace: env
+  keys:
+    TELLER_ACCESS_TOKEN: TELLER_ACCESS_TOKEN
 capability:
   consumes:
-    - import: teller
-      location: ./shared/teller.yaml
-
+  - type: http
+    namespace: teller
+    baseUri: https://api.teller.io
+    description: Teller unified banking API for real-time financial data access.
+    authentication:
+      type: bearer
+      token: '{{TELLER_ACCESS_TOKEN}}'
+    resources:
+    - name: identity
+      path: /identity
+      description: Account holder identity information
+      operations:
+      - name: list-identity
+        method: GET
+        description: List accounts with owner identity information attached
+        inputParameters: []
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: array
+          value: $.
+    - name: accounts
+      path: /accounts
+      description: Bank account management
+      operations:
+      - name: list-accounts
+        method: GET
+        description: List all authorized bank accounts
+        inputParameters: []
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: array
+          value: $.
+      - name: get-account
+        method: GET
+        description: Get a single bank account by ID
+        inputParameters:
+        - name: account_id
+          in: path
+          type: string
+          required: true
+          description: Account identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-account-details
+        method: GET
+        description: Get account routing and account numbers
+        inputParameters:
+        - name: account_id
+          in: path
+          type: string
+          required: true
+          description: Account identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: get-account-balances
+        method: GET
+        description: Get current available and ledger balances
+        inputParameters:
+        - name: account_id
+          in: path
+          type: string
+          required: true
+          description: Account identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: transactions
+      path: /accounts/{account_id}/transactions
+      description: Account transaction history
+      operations:
+      - name: list-transactions
+        method: GET
+        description: List transactions for an account with optional date filtering
+        inputParameters:
+        - name: account_id
+          in: path
+          type: string
+          required: true
+          description: Account identifier
+        - name: count
+          in: query
+          type: integer
+          required: false
+          description: Maximum transactions to return
+        - name: from_id
+          in: query
+          type: string
+          required: false
+          description: Paginate backward from this transaction ID
+        - name: start_date
+          in: query
+          type: string
+          required: false
+          description: Filter from this ISO 8601 date
+        - name: end_date
+          in: query
+          type: string
+          required: false
+          description: Filter to this ISO 8601 date
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: array
+          value: $.
+      - name: get-transaction
+        method: GET
+        description: Get a single transaction by ID
+        inputParameters:
+        - name: account_id
+          in: path
+          type: string
+          required: true
+          description: Account identifier
+        - name: transaction_id
+          in: path
+          type: string
+          required: true
+          description: Transaction identifier
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: institutions
+      path: /institutions
+      description: Supported financial institutions
+      operations:
+      - name: list-institutions
+        method: GET
+        description: List all supported financial institutions and their available products
+        inputParameters: []
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: array
+          value: $.
   exposes:
-    - type: rest
-      port: 8080
-      namespace: teller-open-banking-api
-      description: >-
-        Unified REST API for open banking data access including accounts, balances,
-        transactions, and identity across US financial institutions.
-      resources:
-        - path: /v1/identity
-          name: identity
-          description: Account holder identity and ownership information
-          operations:
-            - method: GET
-              name: list-identity
-              description: List accounts with beneficial owner identity information
-              call: "teller.list-identity"
-              outputParameters:
-                - type: array
-                  mapping: "$."
-        - path: /v1/accounts
-          name: accounts
-          description: Bank accounts accessible via the current enrollment
-          operations:
-            - method: GET
-              name: list-accounts
-              description: List all authorized bank accounts
-              call: "teller.list-accounts"
-              outputParameters:
-                - type: array
-                  mapping: "$."
-        - path: /v1/accounts/{account_id}
-          name: account
-          description: Single bank account resource
-          operations:
-            - method: GET
-              name: get-account
-              description: Get a bank account by ID
-              call: "teller.get-account"
-              with:
-                account_id: "rest.account_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/accounts/{account_id}/details
-          name: account-details
-          description: Sensitive account number and routing details
-          operations:
-            - method: GET
-              name: get-account-details
-              description: Get routing number and account number
-              call: "teller.get-account-details"
-              with:
-                account_id: "rest.account_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/accounts/{account_id}/balances
-          name: account-balances
-          description: Real-time account balance data
-          operations:
-            - method: GET
-              name: get-account-balances
-              description: Get available and ledger balances
-              call: "teller.get-account-balances"
-              with:
-                account_id: "rest.account_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/accounts/{account_id}/transactions
-          name: transactions
-          description: Transaction history for a bank account
-          operations:
-            - method: GET
-              name: list-transactions
-              description: List transactions with optional date filtering and pagination
-              call: "teller.list-transactions"
-              with:
-                account_id: "rest.account_id"
-                count: "rest.count"
-                start_date: "rest.start_date"
-                end_date: "rest.end_date"
-              outputParameters:
-                - type: array
-                  mapping: "$."
-        - path: /v1/accounts/{account_id}/transactions/{transaction_id}
-          name: transaction
-          description: Single transaction record
-          operations:
-            - method: GET
-              name: get-transaction
-              description: Get a transaction by ID
-              call: "teller.get-transaction"
-              with:
-                account_id: "rest.account_id"
-                transaction_id: "rest.transaction_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/institutions
-          name: institutions
-          description: Supported financial institutions
-          operations:
-            - method: GET
-              name: list-institutions
-              description: List all supported banks and credit unions
-              call: "teller.list-institutions"
-              outputParameters:
-                - type: array
-                  mapping: "$."
-
-    - type: mcp
-      port: 9090
-      namespace: teller-open-banking-mcp
-      transport: http
-      description: >-
-        MCP server for AI-assisted open banking data access and financial analysis
-        across US banks and credit unions via Teller.
-      tools:
-        - name: list-identity
-          description: List bank accounts with beneficial owner identity information
-          hints:
-            readOnly: true
-            destructive: false
-            idempotent: true
-          call: "teller.list-identity"
-          outputParameters:
-            - type: array
-              mapping: "$."
-        - name: list-accounts
-          description: List all bank accounts authorized in the current Teller enrollment
-          hints:
-            readOnly: true
-            destructive: false
-            idempotent: true
-          call: "teller.list-accounts"
-          outputParameters:
-            - type: array
-              mapping: "$."
-        - name: get-account
-          description: Get details for a specific bank account
-          hints:
-            readOnly: true
-            destructive: false
-            idempotent: true
-          call: "teller.get-account"
-          with:
-            account_id: "tools.account_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-account-details
-          description: Get routing number and full account number for a bank account
-          hints:
-            readOnly: true
-            destructive: false
-            idempotent: true
-          call: "teller.get-account-details"
-          with:
-            account_id: "tools.account_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: get-account-balances
-          description: Get real-time available and ledger balances for a bank account
-          hints:
-            readOnly: true
-            destructive: false
-            idempotent: true
-          call: "teller.get-account-balances"
-          with:
-            account_id: "tools.account_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-transactions
-          description: List transactions for a bank account with date range filtering
-          hints:
-            readOnly: true
-            destructive: false
-            idempotent: true
-          call: "teller.list-transactions"
-          with:
-            account_id: "tools.account_id"
-            count: "tools.count"
-            start_date: "tools.start_date"
-            end_date: "tools.end_date"
-          outputParameters:
-            - type: array
-              mapping: "$."
-        - name: get-transaction
-          description: Get a specific transaction record by ID
-          hints:
-            readOnly: true
-            destructive: false
-            idempotent: true
-          call: "teller.get-transaction"
-          with:
-            account_id: "tools.account_id"
-            transaction_id: "tools.transaction_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: list-supported-institutions
-          description: List all US financial institutions supported by Teller
-          hints:
-            readOnly: true
-            destructive: false
-            idempotent: true
-          call: "teller.list-institutions"
-          outputParameters:
-            - type: array
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: teller-open-banking-api
+    description: Unified REST API for open banking data access including accounts, balances, transactions, and identity across
+      US financial institutions.
+    resources:
+    - path: /v1/identity
+      name: identity
+      description: Account holder identity and ownership information
+      operations:
+      - method: GET
+        name: list-identity
+        description: List accounts with beneficial owner identity information
+        call: teller.list-identity
+        outputParameters:
+        - type: array
+          mapping: $.
+    - path: /v1/accounts
+      name: accounts
+      description: Bank accounts accessible via the current enrollment
+      operations:
+      - method: GET
+        name: list-accounts
+        description: List all authorized bank accounts
+        call: teller.list-accounts
+        outputParameters:
+        - type: array
+          mapping: $.
+    - path: /v1/accounts/{account_id}
+      name: account
+      description: Single bank account resource
+      operations:
+      - method: GET
+        name: get-account
+        description: Get a bank account by ID
+        call: teller.get-account
+        with:
+          account_id: rest.account_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account_id}/details
+      name: account-details
+      description: Sensitive account number and routing details
+      operations:
+      - method: GET
+        name: get-account-details
+        description: Get routing number and account number
+        call: teller.get-account-details
+        with:
+          account_id: rest.account_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account_id}/balances
+      name: account-balances
+      description: Real-time account balance data
+      operations:
+      - method: GET
+        name: get-account-balances
+        description: Get available and ledger balances
+        call: teller.get-account-balances
+        with:
+          account_id: rest.account_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account_id}/transactions
+      name: transactions
+      description: Transaction history for a bank account
+      operations:
+      - method: GET
+        name: list-transactions
+        description: List transactions with optional date filtering and pagination
+        call: teller.list-transactions
+        with:
+          account_id: rest.account_id
+          count: rest.count
+          start_date: rest.start_date
+          end_date: rest.end_date
+        outputParameters:
+        - type: array
+          mapping: $.
+    - path: /v1/accounts/{account_id}/transactions/{transaction_id}
+      name: transaction
+      description: Single transaction record
+      operations:
+      - method: GET
+        name: get-transaction
+        description: Get a transaction by ID
+        call: teller.get-transaction
+        with:
+          account_id: rest.account_id
+          transaction_id: rest.transaction_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/institutions
+      name: institutions
+      description: Supported financial institutions
+      operations:
+      - method: GET
+        name: list-institutions
+        description: List all supported banks and credit unions
+        call: teller.list-institutions
+        outputParameters:
+        - type: array
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: teller-open-banking-mcp
+    transport: http
+    description: MCP server for AI-assisted open banking data access and financial analysis across US banks and credit unions
+      via Teller.
+    tools:
+    - name: list-identity
+      description: List bank accounts with beneficial owner identity information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller.list-identity
+      outputParameters:
+      - type: array
+        mapping: $.
+    - name: list-accounts
+      description: List all bank accounts authorized in the current Teller enrollment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller.list-accounts
+      outputParameters:
+      - type: array
+        mapping: $.
+    - name: get-account
+      description: Get details for a specific bank account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller.get-account
+      with:
+        account_id: tools.account_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account-details
+      description: Get routing number and full account number for a bank account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller.get-account-details
+      with:
+        account_id: tools.account_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account-balances
+      description: Get real-time available and ledger balances for a bank account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller.get-account-balances
+      with:
+        account_id: tools.account_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-transactions
+      description: List transactions for a bank account with date range filtering
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller.list-transactions
+      with:
+        account_id: tools.account_id
+        count: tools.count
+        start_date: tools.start_date
+        end_date: tools.end_date
+      outputParameters:
+      - type: array
+        mapping: $.
+    - name: get-transaction
+      description: Get a specific transaction record by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller.get-transaction
+      with:
+        account_id: tools.account_id
+        transaction_id: tools.transaction_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-supported-institutions
+      description: List all US financial institutions supported by Teller
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller.list-institutions
+      outputParameters:
+      - type: array
+        mapping: $.
