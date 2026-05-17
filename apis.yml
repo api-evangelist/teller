@@ -39,7 +39,7 @@ apis:
         url: https://teller.io/docs/api
       - type: OpenAPI
         url: openapi/teller-openapi.yml
-      - type: Getting Started
+      - type: GettingStarted
         url: https://teller.io/docs/guides/quickstart
       - type: Authentication
         url: https://teller.io/docs/api/authentication
@@ -52,7 +52,7 @@ common:
     url: https://teller.io/docs
   - type: Developer Portal
     url: https://teller.io/docs/api
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/tellerhq
   - type: SDK
     url: https://github.com/tellerhq/teller-ruby
