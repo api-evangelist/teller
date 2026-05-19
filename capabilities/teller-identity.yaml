@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Teller API — Identity
+  description: 'Teller API — Identity. 1 operations. Lead operation: List Account Identity. Self-contained Naftiko capability
+    covering one Teller business surface.'
+  tags:
+  - Teller
+  - Identity
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TELLER_API_KEY: TELLER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: teller-identity
+    baseUri: https://api.teller.io
+    description: Teller API — Identity business capability. Self-contained, no shared references.
+    resources:
+    - name: identity
+      path: /identity
+      operations:
+      - name: listidentity
+        method: GET
+        description: List Account Identity
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Teller-Version
+          in: header
+          type: string
+          description: API version header for requesting a specific version.
+    authentication:
+      type: bearer
+      token: '{{env.TELLER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: teller-identity-rest
+    port: 8080
+    description: REST adapter for Teller API — Identity. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/identity
+      name: identity
+      description: REST surface for identity.
+      operations:
+      - method: GET
+        name: listidentity
+        description: List Account Identity
+        call: teller-identity.listidentity
+        with:
+          Teller-Version: rest.Teller-Version
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: teller-identity-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Teller API — Identity. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-account-identity
+      description: List Account Identity
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller-identity.listidentity
+      with:
+        Teller-Version: tools.Teller-Version
+      outputParameters:
+      - type: object
+        mapping: $.

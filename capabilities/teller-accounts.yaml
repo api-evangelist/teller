@@ -1,0 +1,265 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Teller API — Accounts
+  description: 'Teller API — Accounts. 6 operations. Lead operation: List Accounts. Self-contained Naftiko capability covering
+    one Teller business surface.'
+  tags:
+  - Teller
+  - Accounts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TELLER_API_KEY: TELLER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: teller-accounts
+    baseUri: https://api.teller.io
+    description: Teller API — Accounts business capability. Self-contained, no shared references.
+    resources:
+    - name: accounts
+      path: /accounts
+      operations:
+      - name: listaccounts
+        method: GET
+        description: List Accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: Teller-Version
+          in: header
+          type: string
+          description: API version header.
+      - name: deleteaccounts
+        method: DELETE
+        description: Delete Accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: accounts-account_id
+      path: /accounts/{account_id}
+      operations:
+      - name: getaccount
+        method: GET
+        description: Get Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: account_id
+          in: path
+          type: string
+          description: The account identifier.
+          required: true
+      - name: deleteaccount
+        method: DELETE
+        description: Delete Account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: account_id
+          in: path
+          type: string
+          description: The account identifier.
+          required: true
+    - name: accounts-account_id-balances
+      path: /accounts/{account_id}/balances
+      operations:
+      - name: getaccountbalances
+        method: GET
+        description: Get Account Balances
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: account_id
+          in: path
+          type: string
+          description: The account identifier.
+          required: true
+    - name: accounts-account_id-details
+      path: /accounts/{account_id}/details
+      operations:
+      - name: getaccountdetails
+        method: GET
+        description: Get Account Details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: account_id
+          in: path
+          type: string
+          description: The account identifier.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TELLER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: teller-accounts-rest
+    port: 8080
+    description: REST adapter for Teller API — Accounts. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/accounts
+      name: accounts
+      description: REST surface for accounts.
+      operations:
+      - method: GET
+        name: listaccounts
+        description: List Accounts
+        call: teller-accounts.listaccounts
+        with:
+          Teller-Version: rest.Teller-Version
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteaccounts
+        description: Delete Accounts
+        call: teller-accounts.deleteaccounts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account-id}
+      name: accounts-account-id
+      description: REST surface for accounts-account_id.
+      operations:
+      - method: GET
+        name: getaccount
+        description: Get Account
+        call: teller-accounts.getaccount
+        with:
+          account_id: rest.account_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteaccount
+        description: Delete Account
+        call: teller-accounts.deleteaccount
+        with:
+          account_id: rest.account_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account-id}/balances
+      name: accounts-account-id-balances
+      description: REST surface for accounts-account_id-balances.
+      operations:
+      - method: GET
+        name: getaccountbalances
+        description: Get Account Balances
+        call: teller-accounts.getaccountbalances
+        with:
+          account_id: rest.account_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account-id}/details
+      name: accounts-account-id-details
+      description: REST surface for accounts-account_id-details.
+      operations:
+      - method: GET
+        name: getaccountdetails
+        description: Get Account Details
+        call: teller-accounts.getaccountdetails
+        with:
+          account_id: rest.account_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: teller-accounts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Teller API — Accounts. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-accounts
+      description: List Accounts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller-accounts.listaccounts
+      with:
+        Teller-Version: tools.Teller-Version
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-accounts
+      description: Delete Accounts
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: teller-accounts.deleteaccounts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account
+      description: Get Account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller-accounts.getaccount
+      with:
+        account_id: tools.account_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-account
+      description: Delete Account
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: teller-accounts.deleteaccount
+      with:
+        account_id: tools.account_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account-balances
+      description: Get Account Balances
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller-accounts.getaccountbalances
+      with:
+        account_id: tools.account_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account-details
+      description: Get Account Details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: teller-accounts.getaccountdetails
+      with:
+        account_id: tools.account_id
+      outputParameters:
+      - type: object
+        mapping: $.
