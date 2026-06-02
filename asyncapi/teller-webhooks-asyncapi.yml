@@ -1,0 +1,311 @@
+asyncapi: '2.6.0'
+info:
+  title: Teller Webhooks
+  version: '2020-10-12'
+  description: >-
+    AsyncAPI specification describing Teller's outbound webhook surface. Teller
+    sends signed HTTPS POST callbacks to a developer-configured endpoint when
+    notable events occur on enrollments and accounts (connection state changes,
+    new categorized transactions, micro-deposit verification results, and
+    configurable test deliveries). Each delivery is signed with HMAC-SHA256
+    using a signing secret and carries a Teller-Signature header that includes
+    a timestamp and one or more signature values to allow seamless secret
+    rotation.
+  contact:
+    name: Teller Developer Support
+    url: https://teller.io/docs
+  termsOfService: https://teller.io/legal/terms-of-service
+defaultContentType: application/json
+servers:
+  production:
+    url: '{webhook_endpoint}'
+    protocol: https
+    description: >-
+      Developer-hosted HTTPS endpoint registered in the Teller dashboard that
+      receives webhook deliveries from Teller.
+    variables:
+      webhook_endpoint:
+        default: https://example.com/webhooks/teller
+        description: The fully qualified HTTPS URL configured in Teller Application Settings.
+channels:
+  webhooks:
+    description: >-
+      Single inbound channel on the developer's HTTPS endpoint. Teller POSTs a
+      JSON body whose `type` field discriminates between event payloads.
+    bindings:
+      http:
+        type: request
+        method: POST
+        bindingVersion: '0.3.0'
+    publish:
+      operationId: receiveTellerWebhook
+      summary: Receive a Teller webhook event.
+      description: >-
+        Teller publishes webhook events to the configured HTTPS endpoint. The
+        `Teller-Signature` header MUST be verified before trusting the payload.
+        Events older than 3 minutes (per the signature timestamp) SHOULD be
+        rejected to prevent replay.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/EnrollmentDisconnected'
+          - $ref: '#/components/messages/TransactionsProcessed'
+          - $ref: '#/components/messages/AccountNumberVerificationProcessed'
+          - $ref: '#/components/messages/WebhookTest'
+components:
+  messages:
+    EnrollmentDisconnected:
+      name: enrollment.disconnected
+      title: Enrollment Disconnected
+      summary: An enrollment has lost connection to its financial institution.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/WebhookHeaders'
+      payload:
+        $ref: '#/components/schemas/EnrollmentDisconnectedEvent'
+    TransactionsProcessed:
+      name: transactions.processed
+      title: Transactions Processed
+      summary: Teller has discovered and categorized new transactions for an enrollment.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/WebhookHeaders'
+      payload:
+        $ref: '#/components/schemas/TransactionsProcessedEvent'
+    AccountNumberVerificationProcessed:
+      name: account.number_verification.processed
+      title: Account Number Verification Processed
+      summary: A micro-deposit account number verification has completed or expired.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/WebhookHeaders'
+      payload:
+        $ref: '#/components/schemas/AccountNumberVerificationProcessedEvent'
+    WebhookTest:
+      name: webhook.test
+      title: Webhook Test
+      summary: A test event dispatched from Application Settings to validate the endpoint.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/WebhookHeaders'
+      payload:
+        $ref: '#/components/schemas/WebhookTestEvent'
+  schemas:
+    WebhookHeaders:
+      type: object
+      description: HTTP headers attached to every Teller webhook delivery.
+      properties:
+        Teller-Signature:
+          type: string
+          description: >-
+            Signature header in the form
+            `t=signature_timestamp,v1=signature_1,v1=signature_2,...`.
+            `t` is the Unix timestamp the signature was generated. Each `v1`
+            value is an HMAC-SHA256 of `"{t}.{raw_request_body}"` using a
+            signing secret. Multiple `v1` values are emitted during signing-
+            secret rotation so consumers can accept either secret.
+          example: t=1717000000,v1=8b5f1c3c0d4e2a6f9e8d7c6b5a4938271605f4e3d2c1b0a9988776655443322
+      required:
+        - Teller-Signature
+    WebhookEventBase:
+      type: object
+      description: Common envelope shared by every Teller webhook event.
+      properties:
+        id:
+          type: string
+          description: Unique webhook event identifier.
+        type:
+          type: string
+          description: Event type discriminator.
+        timestamp:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp the event was generated.
+        payload:
+          type: object
+          description: Event-specific payload object.
+      required:
+        - id
+        - type
+        - timestamp
+        - payload
+    EnrollmentDisconnectedEvent:
+      allOf:
+        - $ref: '#/components/schemas/WebhookEventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - enrollment.disconnected
+            payload:
+              $ref: '#/components/schemas/EnrollmentDisconnectedPayload'
+    EnrollmentDisconnectedPayload:
+      type: object
+      description: Payload for `enrollment.disconnected` events.
+      properties:
+        enrollment_id:
+          type: string
+          description: Identifier of the affected enrollment.
+        reason:
+          type: string
+          description: Machine-readable disconnection reason.
+          enum:
+            - disconnected
+            - disconnected.account_locked
+            - disconnected.credentials_invalid
+            - disconnected.enrollment_inactive
+            - disconnected.user_action.captcha_required
+            - disconnected.user_action.contact_information_required
+            - disconnected.user_action.insufficient_permissions
+            - disconnected.user_action.mfa_required
+            - disconnected.user_action.web_login_required
+      required:
+        - enrollment_id
+        - reason
+    TransactionsProcessedEvent:
+      allOf:
+        - $ref: '#/components/schemas/WebhookEventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - transactions.processed
+            payload:
+              $ref: '#/components/schemas/TransactionsProcessedPayload'
+    TransactionsProcessedPayload:
+      type: object
+      description: Payload for `transactions.processed` events.
+      properties:
+        enrollment_id:
+          type: string
+          description: Identifier of the enrollment whose transactions were processed.
+        transactions:
+          type: array
+          description: Array of transaction objects following the Teller Transactions API schema.
+          items:
+            $ref: '#/components/schemas/Transaction'
+      required:
+        - enrollment_id
+        - transactions
+    AccountNumberVerificationProcessedEvent:
+      allOf:
+        - $ref: '#/components/schemas/WebhookEventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - account.number_verification.processed
+            payload:
+              $ref: '#/components/schemas/AccountNumberVerificationProcessedPayload'
+    AccountNumberVerificationProcessedPayload:
+      type: object
+      description: Payload for `account.number_verification.processed` events.
+      properties:
+        enrollment_id:
+          type: string
+          description: Identifier of the enrollment the account belongs to.
+        account_id:
+          type: string
+          description: Identifier of the account whose verification completed or expired.
+        status:
+          type: string
+          description: Outcome of the micro-deposit verification.
+          enum:
+            - completed
+            - expired
+      required:
+        - enrollment_id
+        - account_id
+        - status
+    WebhookTestEvent:
+      allOf:
+        - $ref: '#/components/schemas/WebhookEventBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - webhook.test
+            payload:
+              type: object
+              description: Empty payload object for test deliveries.
+              additionalProperties: false
+    Transaction:
+      type: object
+      description: A financial transaction on a bank account, as defined by the Teller Transactions API.
+      properties:
+        id:
+          type: string
+          description: Teller transaction identifier.
+        account_id:
+          type: string
+          description: Account this transaction belongs to.
+        amount:
+          type: string
+          description: Transaction amount as a signed decimal string (negative = debit).
+        date:
+          type: string
+          format: date
+          description: ISO 8601 transaction date.
+        description:
+          type: string
+          description: Bank statement text.
+        status:
+          type: string
+          enum:
+            - posted
+            - pending
+          description: Whether the transaction has settled.
+        type:
+          type: string
+          description: Transaction type.
+          enum:
+            - card_payment
+            - transfer
+            - atm
+            - deposit
+            - withdrawal
+            - digital_payment
+            - wire
+            - check
+            - interest
+            - fee
+            - other
+        running_balance:
+          type: string
+          description: Running account balance after this transaction (posted only).
+        details:
+          $ref: '#/components/schemas/TransactionDetails'
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              format: uri
+            account:
+              type: string
+              format: uri
+    TransactionDetails:
+      type: object
+      properties:
+        processing_status:
+          type: string
+          enum:
+            - pending
+            - complete
+        category:
+          type: string
+          description: Transaction category (e.g. dining, groceries, utilities, travel, entertainment).
+        counterparty:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the merchant or counterparty.
+            type:
+              type: string
+              enum:
+                - person
+                - organization

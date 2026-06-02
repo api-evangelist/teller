@@ -5,7 +5,7 @@ description: Teller is a unified banking API providing real-time access to bank 
   single integration. Teller uses mutual TLS (mTLS) for application authentication and access tokens obtained via Teller Connect
   for per-account authorization.
 url: https://raw.githubusercontent.com/api-evangelist/teller/refs/heads/main/apis.yml
-modified: '2026-05-19'
+modified: '2026-05-30'
 specificationVersion: '0.19'
 tags:
   - Banking
@@ -35,6 +35,8 @@ apis:
       url: https://teller.io/docs/api
     - type: OpenAPI
       url: openapi/teller-openapi.yml
+    - type: AsyncAPI
+      url: asyncapi/teller-webhooks-asyncapi.yml
     - type: GettingStarted
       url: https://teller.io/docs/guides/quickstart
     - type: Authentication
