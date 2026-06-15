@@ -1,0 +1,278 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Teller API",
+    "version": "Sun Oct 11 2020 20:00:00 GMT-0400 (Eastern Daylight Time)"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Identity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Account Identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/identity",
+            "headers": [
+              {
+                "name": "Teller-Version",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns an array of accounts with beneficial owner identity information attached, including names, addresses, phone numbers, and email addresses."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts",
+            "headers": [
+              {
+                "name": "Teller-Version",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all bank accounts authorized by the current access token enrollment."
+        },
+        {
+          "info": {
+            "name": "Delete Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.teller.io/accounts",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes authorization to access all accounts in the enrollment. Does not delete the actual bank accounts."
+        },
+        {
+          "info": {
+            "name": "Get Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts/:account_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a single bank account by ID."
+        },
+        {
+          "info": {
+            "name": "Delete Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.teller.io/accounts/:account_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes authorization to access the specified account. Does not delete the actual bank account."
+        },
+        {
+          "info": {
+            "name": "Get Account Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts/:account_id/details",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve account details including routing number and account number for the specified bank account."
+        },
+        {
+          "info": {
+            "name": "Get Account Balances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts/:account_id/balances",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve current available and ledger balances for the specified account."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts/:account_id/transactions",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of transactions to return."
+              },
+              {
+                "name": "from_id",
+                "value": "",
+                "type": "query",
+                "description": "Paginate backward from this transaction ID."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter transactions on or after this ISO 8601 date."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter transactions on or before this ISO 8601 date."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of all transactions belonging to the specified account. Supports pagination and date range filtering."
+        },
+        {
+          "info": {
+            "name": "Get Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts/:account_id/transactions/:transaction_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              },
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path",
+                "description": "The transaction identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a single transaction by ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Institutions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Institutions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/institutions"
+          },
+          "docs": "Returns all supported financial institutions and the Teller products available for each. Does not require authentication."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

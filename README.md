@@ -1,75 +1,65 @@
-# Teller
+# Teller (teller)
 
 Teller is a unified banking API providing real-time access to bank accounts, transactions, balances, identity data, and payment initiation across US financial institutions. Connect to thousands of banks and credit unions through a single integration. Teller uses mutual TLS (mTLS) for application authentication and access tokens obtained via Teller Connect for per-account authorization.
 
-**Website:** https://teller.io/
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/teller/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/teller/refs/heads/main/apis.yml)
 
-**Developer Portal:** https://teller.io/docs/api
+## Tags
 
-**GitHub Organization:** https://github.com/tellerhq
+- Banking
+- Financial Data
+- FinTech
+- Open Banking
+- Transactions
+- Unified API
 
-## API
+## Timestamps
 
-| Resource | Operations |
-|----------|-----------|
-| `GET /identity` | List accounts with owner identity |
-| `GET /accounts` | List all accounts |
-| `GET /accounts/{id}` | Get single account |
-| `DELETE /accounts/{id}` | Revoke account authorization |
-| `GET /accounts/{id}/details` | Get routing + account numbers |
-| `GET /accounts/{id}/balances` | Get available + ledger balances |
-| `GET /accounts/{id}/transactions` | List transactions (paginated) |
-| `GET /accounts/{id}/transactions/{txn_id}` | Get single transaction |
-| `GET /institutions` | List supported institutions (public) |
+- **Modified:** 2026-05-30
 
-## Authentication
+## APIs
 
-Teller uses two complementary mechanisms:
-1. **mTLS** — Teller issues client certificates for application-level authentication
-2. **Access Tokens** — Per-user tokens obtained via Teller Connect, used as HTTP Basic Auth username
+### Teller API
 
-## SDKs
+Unified banking API for real-time access to accounts, transactions, balances, and identity data across US financial institutions. Supports account management, transaction history, balance retrieval, and account holder identity verification via a single REST API secured with mTLS and per-user access tokens.
 
-| Platform | Repository |
-|----------|-----------|
-| React | [teller-connect-react](https://github.com/tellerhq/teller-connect-react) |
-| iOS | [iOS-SDK](https://github.com/tellerhq/iOS-SDK) |
-| Android | [teller-connect-android](https://github.com/tellerhq/teller-connect-android) |
-| Ruby | [teller-ruby](https://github.com/tellerhq/teller-ruby) |
+- **Human URL:** [https://teller.io/docs/api](https://teller.io/docs/api)
+- **Base URL:** `https://api.teller.io`
 
-## Links
+#### Tags
 
+- Accounts
+- Balance
+- Banking
+- Financial Data
+- Identity
+- Open Banking
+- Transactions
+
+#### Properties
+
+- [Documentation](https://teller.io/docs/api)
+- [OpenAPI](openapi/teller-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/teller.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/teller.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [AsyncAPI](asyncapi/teller-webhooks-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
+- [Getting Started](https://teller.io/docs/guides/quickstart)
+- [Authentication](https://teller.io/docs/api/authentication)
+- [SDK](https://teller.io/docs/guides/sdks)
+
+## Common Properties
+
+- [LinkedIn](https://www.linkedin.com/company/hello-teller)
 - [Website](https://teller.io/)
 - [Documentation](https://teller.io/docs)
-- [API Reference](https://teller.io/docs/api)
-- [Quickstart](https://teller.io/docs/guides/quickstart)
-- [Authentication Guide](https://teller.io/docs/api/authentication)
+- [Developer  Portal](https://teller.io/docs/api)
 - [GitHub Organization](https://github.com/tellerhq)
+- [SDK](https://github.com/tellerhq/teller-ruby)
+- [SDK](https://github.com/tellerhq/teller-connect-react)
+- [SDK](https://github.com/tellerhq/iOS-SDK)
+- [SDK](https://github.com/tellerhq/teller-connect-android)
 
-## Capabilities
+## Maintainers
 
-| Capability | Description |
-|------------|-------------|
-| [open-banking.yaml](capabilities/open-banking.yaml) | Unified open banking data access workflow |
-
-### Shared Definitions
-
-| File | API |
-|------|-----|
-| [capabilities/shared/teller.yaml](capabilities/shared/teller.yaml) | Teller API |
-
-## Artifacts
-
-| Artifact | Description |
-|----------|-------------|
-| [apis.yml](apis.yml) | API catalog index |
-| [openapi/teller-openapi.yml](openapi/teller-openapi.yml) | OpenAPI specification |
-| [rules/teller-rules.yml](rules/teller-rules.yml) | Spectral ruleset |
-| [json-schema/teller-account-schema.json](json-schema/teller-account-schema.json) | Account schema |
-| [json-schema/teller-transaction-schema.json](json-schema/teller-transaction-schema.json) | Transaction schema |
-| [json-structure/teller-banking-structure.json](json-structure/teller-banking-structure.json) | API structure documentation |
-| [json-ld/teller-context.jsonld](json-ld/teller-context.jsonld) | JSON-LD context |
-| [examples/teller-list-accounts-example.json](examples/teller-list-accounts-example.json) | List accounts example |
-| [examples/teller-list-transactions-example.json](examples/teller-list-transactions-example.json) | List transactions example |
-| [examples/teller-get-balances-example.json](examples/teller-get-balances-example.json) | Get balances example |
-| [vocabulary/teller-vocabulary.yml](vocabulary/teller-vocabulary.yml) | Domain vocabulary |
+**FN:** Kin Lane
+**Email:** kin@apievangelist.com
