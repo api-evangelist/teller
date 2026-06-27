@@ -43,7 +43,7 @@ apis:
         url: https://teller.io/docs/guides/quickstart
       - type: Authentication
         url: https://teller.io/docs/api/authentication
-      - type: SDK
+      - type: SDKs
         url: https://teller.io/docs/guides/sdks
 common:
   - type: LinkedIn
@@ -52,17 +52,17 @@ common:
     url: https://teller.io/
   - type: Documentation
     url: https://teller.io/docs
-  - type: Developer Portal
+  - type: DeveloperPortal
     url: https://teller.io/docs/api
   - type: GitHubOrganization
     url: https://github.com/tellerhq
-  - type: SDK
+  - type: SDKs
     url: https://github.com/tellerhq/teller-ruby
-  - type: SDK
+  - type: SDKs
     url: https://github.com/tellerhq/teller-connect-react
-  - type: SDK
+  - type: SDKs
     url: https://github.com/tellerhq/iOS-SDK
-  - type: SDK
+  - type: SDKs
     url: https://github.com/tellerhq/teller-connect-android
 maintainers:
   - FN: Kin Lane
