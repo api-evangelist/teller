@@ -46,6 +46,10 @@ apis:
       - type: SDKs
         url: https://teller.io/docs/guides/sdks
 common:
+  - type: DomainSecurity
+    url: security/teller-domain-security.yml
+  - type: Authentication
+    url: authentication/teller-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/hello-teller
   - type: Website
@@ -64,6 +68,8 @@ common:
     url: https://github.com/tellerhq/iOS-SDK
   - type: SDKs
     url: https://github.com/tellerhq/teller-connect-android
+  - type: Blog
+    url: https://teller.io/blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

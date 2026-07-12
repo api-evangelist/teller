@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/teller-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BearerMtls
+  type: http
+  scheme: bearer
+  description: 'Access token obtained via Teller Connect when a user successfully enrolls their
+    bank account. Must be used together with a Teller client certificate (mTLS). Encoded using
+    HTTP Basic Auth scheme: ACCESS_TOKEN as username, empty password.'
+  sources:
+  - openapi/teller-openapi.yml
