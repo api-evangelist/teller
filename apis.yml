@@ -46,6 +46,8 @@ apis:
       - type: SDKs
         url: https://teller.io/docs/guides/sdks
 common:
+  - type: AgenticAccess
+    url: agentic-access/teller-agentic-access.yml
   - type: DomainSecurity
     url: security/teller-domain-security.yml
   - type: Authentication
