@@ -1,0 +1,59 @@
+openapi: 3.0.3
+info:
+  title: Teller Accounts Institutions API
+  description: Teller is a unified banking API providing real-time access to bank accounts, transactions, balances, identity data, and payment initiation across US financial institutions. Connect to thousands of banks and credit unions through a single integration. Teller uses mutual TLS (mTLS) for application authentication and access tokens obtained via Teller Connect for per-account authorization.
+  version: 2020-10-12
+  contact:
+    name: Teller Developer Support
+    url: https://teller.io/docs
+  termsOfService: https://teller.io/legal/terms-of-service
+servers:
+- url: https://api.teller.io
+  description: Teller Production API
+tags:
+- name: Institutions
+  description: Supported financial institutions
+paths:
+  /institutions:
+    get:
+      operationId: listInstitutions
+      summary: List Institutions
+      description: Returns all supported financial institutions and the Teller products available for each. Does not require authentication.
+      tags:
+      - Institutions
+      responses:
+        '200':
+          description: Institutions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Institution'
+components:
+  schemas:
+    Institution:
+      type: object
+      description: A supported financial institution
+      properties:
+        id:
+          type: string
+          description: Teller identifier for the institution
+        name:
+          type: string
+          description: Institution name
+        products:
+          type: array
+          description: Teller products available for this institution
+          items:
+            type: string
+            enum:
+            - verify
+            - balance
+            - transactions
+            - identity
+  securitySchemes:
+    BearerMtls:
+      type: http
+      scheme: bearer
+      description: 'Access token obtained via Teller Connect when a user successfully enrolls their bank account. Must be used together with a Teller client certificate (mTLS). Encoded using HTTP Basic Auth scheme: ACCESS_TOKEN as username, empty password.'

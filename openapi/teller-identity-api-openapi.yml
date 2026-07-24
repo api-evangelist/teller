@@ -1,0 +1,191 @@
+openapi: 3.0.3
+info:
+  title: Teller Accounts Identity API
+  description: Teller is a unified banking API providing real-time access to bank accounts, transactions, balances, identity data, and payment initiation across US financial institutions. Connect to thousands of banks and credit unions through a single integration. Teller uses mutual TLS (mTLS) for application authentication and access tokens obtained via Teller Connect for per-account authorization.
+  version: 2020-10-12
+  contact:
+    name: Teller Developer Support
+    url: https://teller.io/docs
+  termsOfService: https://teller.io/legal/terms-of-service
+servers:
+- url: https://api.teller.io
+  description: Teller Production API
+tags:
+- name: Identity
+  description: Account holder identity information
+paths:
+  /identity:
+    get:
+      operationId: listIdentity
+      summary: List Account Identity
+      description: Returns an array of accounts with beneficial owner identity information attached, including names, addresses, phone numbers, and email addresses.
+      tags:
+      - Identity
+      security:
+      - BearerMtls: []
+      parameters:
+      - name: Teller-Version
+        in: header
+        schema:
+          type: string
+          default: '2020-10-12'
+        description: API version header for requesting a specific version.
+      responses:
+        '200':
+          description: Identity information retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountIdentity'
+        '401':
+          description: Unauthorized - invalid or missing access token
+        '429':
+          description: Rate limit exceeded
+components:
+  schemas:
+    Owner:
+      type: object
+      description: Beneficial owner of a bank account
+      properties:
+        type:
+          type: string
+          enum:
+          - person
+          - organization
+          - unknown
+        names:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - name
+                - alias
+              data:
+                type: string
+        addresses:
+          type: array
+          items:
+            type: object
+            properties:
+              primary:
+                type: boolean
+              data:
+                type: object
+                properties:
+                  street:
+                    type: string
+                  city:
+                    type: string
+                  region:
+                    type: string
+                  postal_code:
+                    type: string
+                  country:
+                    type: string
+        phone_numbers:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - mobile
+                - home
+                - work
+                - unknown
+              data:
+                type: string
+        emails:
+          type: array
+          items:
+            type: object
+            properties:
+              data:
+                type: string
+                format: email
+    InstitutionRef:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Account:
+      type: object
+      description: A bank account enrolled via Teller Connect
+      properties:
+        id:
+          type: string
+          description: Teller's unique identifier for the account
+        enrollment_id:
+          type: string
+          description: Identifier for the enrollment (user session)
+        name:
+          type: string
+          description: Name of the account as reported by the institution
+        last_four:
+          type: string
+          description: Last four digits of the account number
+        type:
+          type: string
+          description: Account type
+          enum:
+          - checking
+          - savings
+          - credit_card
+          - money_market
+          - mortgage
+          - loan
+        subtype:
+          type: string
+          description: Account subtype
+        currency:
+          type: string
+          description: Currency code (e.g. USD)
+        status:
+          type: string
+          description: Account status
+          enum:
+          - open
+          - closed
+        institution:
+          $ref: '#/components/schemas/InstitutionRef'
+        links:
+          $ref: '#/components/schemas/AccountLinks'
+    AccountIdentity:
+      type: object
+      description: Account with attached owner identity information
+      allOf:
+      - $ref: '#/components/schemas/Account'
+      - type: object
+        properties:
+          owners:
+            type: array
+            items:
+              $ref: '#/components/schemas/Owner'
+    AccountLinks:
+      type: object
+      properties:
+        self:
+          type: string
+          format: uri
+        transactions:
+          type: string
+          format: uri
+        balances:
+          type: string
+          format: uri
+        details:
+          type: string
+          format: uri
+  securitySchemes:
+    BearerMtls:
+      type: http
+      scheme: bearer
+      description: 'Access token obtained via Teller Connect when a user successfully enrolls their bank account. Must be used together with a Teller client certificate (mTLS). Encoded using HTTP Basic Auth scheme: ACCESS_TOKEN as username, empty password.'
