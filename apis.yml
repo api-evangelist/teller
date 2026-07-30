@@ -1,4 +1,18 @@
 aid: teller
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/teller.png
 name: Teller
 description: >-
   Teller is a unified banking API providing real-time access to bank accounts, transactions, balances, identity data,
@@ -16,35 +30,86 @@ tags:
   - Transactions
   - Unified API
 apis:
-  - aid: teller:teller-api
-    name: Teller API
-    description: >-
-      Unified banking API for real-time access to accounts, transactions, balances, and identity data across US
-      financial institutions. Supports account management, transaction history, balance retrieval, and account holder
-      identity verification via a single REST API secured with mTLS and per-user access tokens.
-    humanURL: https://teller.io/docs/api
-    baseURL: https://api.teller.io
-    tags:
-      - Accounts
-      - Balance
-      - Banking
-      - Financial Data
-      - Identity
-      - Open Banking
-      - Transactions
-    properties:
-      - type: Documentation
-        url: https://teller.io/docs/api
-      - type: OpenAPI
-        url: openapi/teller-openapi.yml
-      - type: AsyncAPI
-        url: asyncapi/teller-webhooks-asyncapi.yml
-      - type: GettingStarted
-        url: https://teller.io/docs/guides/quickstart
-      - type: Authentication
-        url: https://teller.io/docs/api/authentication
-      - type: SDKs
-        url: https://teller.io/docs/guides/sdks
+- aid: teller:teller-accounts-api
+  name: Teller Accounts API
+  description: Bank account management
+  humanURL: https://teller.io/docs/api
+  baseURL: https://api.teller.io
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/teller-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://teller.io/docs/api
+  - type: AsyncAPI
+    url: asyncapi/teller-webhooks-asyncapi.yml
+  - type: GettingStarted
+    url: https://teller.io/docs/guides/quickstart
+  - type: Authentication
+    url: https://teller.io/docs/api/authentication
+  - type: SDKs
+    url: https://teller.io/docs/guides/sdks
+- aid: teller:teller-identity-api
+  name: Teller Identity API
+  description: Account holder identity information
+  humanURL: https://teller.io/docs/api
+  baseURL: https://api.teller.io
+  tags:
+  - Identity
+  properties:
+  - type: OpenAPI
+    url: openapi/teller-identity-api-openapi.yml
+  - type: Documentation
+    url: https://teller.io/docs/api
+  - type: AsyncAPI
+    url: asyncapi/teller-webhooks-asyncapi.yml
+  - type: GettingStarted
+    url: https://teller.io/docs/guides/quickstart
+  - type: Authentication
+    url: https://teller.io/docs/api/authentication
+  - type: SDKs
+    url: https://teller.io/docs/guides/sdks
+- aid: teller:teller-institutions-api
+  name: Teller Institutions API
+  description: Supported financial institutions
+  humanURL: https://teller.io/docs/api
+  baseURL: https://api.teller.io
+  tags:
+  - Institutions
+  properties:
+  - type: OpenAPI
+    url: openapi/teller-institutions-api-openapi.yml
+  - type: Documentation
+    url: https://teller.io/docs/api
+  - type: AsyncAPI
+    url: asyncapi/teller-webhooks-asyncapi.yml
+  - type: GettingStarted
+    url: https://teller.io/docs/guides/quickstart
+  - type: Authentication
+    url: https://teller.io/docs/api/authentication
+  - type: SDKs
+    url: https://teller.io/docs/guides/sdks
+- aid: teller:teller-transactions-api
+  name: Teller Transactions API
+  description: Account transaction history
+  humanURL: https://teller.io/docs/api
+  baseURL: https://api.teller.io
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/teller-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://teller.io/docs/api
+  - type: AsyncAPI
+    url: asyncapi/teller-webhooks-asyncapi.yml
+  - type: GettingStarted
+    url: https://teller.io/docs/guides/quickstart
+  - type: Authentication
+    url: https://teller.io/docs/api/authentication
+  - type: SDKs
+    url: https://teller.io/docs/guides/sdks
 common:
   - type: AgenticAccess
     url: agentic-access/teller-agentic-access.yml
