@@ -1,0 +1,20 @@
+{
+  "provider": "teller",
+  "sources": [
+    "teller-accounts-api-openapi.yml",
+    "teller-identity-api-openapi.yml",
+    "teller-institutions-api-openapi.yml",
+    "teller-transactions-api-openapi.yml"
+  ],
+  "outputs": [
+    "teller-accounts-api-openapi.yml",
+    "teller-identity-api-openapi.yml",
+    "teller-institutions-api-openapi.yml",
+    "teller-transactions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
