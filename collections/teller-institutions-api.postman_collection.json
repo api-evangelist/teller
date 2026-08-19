@@ -1,0 +1,102 @@
+{
+  "item": [
+    {
+      "id": "fa8e8d8a-2dcd-4368-a9bc-dbafcd319870",
+      "name": "Institutions",
+      "description": {
+        "content": "Supported financial institutions",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ae49bbcd-807d-47e4-a49e-1ea220180dff",
+          "name": "List Institutions",
+          "request": {
+            "name": "List Institutions",
+            "description": {
+              "content": "Returns all supported financial institutions and the Teller products available for each. Does not require authentication.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "institutions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2590f88b-694f-4c11-81b9-df63cd215e99",
+              "name": "Institutions retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "institutions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"products\": [\n      \"balance\",\n      \"transactions\"\n    ]\n  },\n  {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"products\": [\n      \"transactions\",\n      \"transactions\"\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.teller.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "581e02fc-60f5-491c-8192-e83cffbe9cd1",
+    "name": "Teller Accounts Institutions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Teller is a unified banking API providing real-time access to bank accounts, transactions, balances, identity data, and payment initiation across US financial institutions. Connect to thousands of banks and credit unions through a single integration. Teller uses mutual TLS (mTLS) for application authentication and access tokens obtained via Teller Connect for per-account authorization.\n\nContact Support:\n Name: Teller Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

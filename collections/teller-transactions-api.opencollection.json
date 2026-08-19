@@ -1,0 +1,94 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Teller Accounts Transactions API",
+    "version": "2020-10-12"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts/:account_id/transactions",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              },
+              {
+                "name": "count",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of transactions to return."
+              },
+              {
+                "name": "from_id",
+                "value": "",
+                "type": "query",
+                "description": "Paginate backward from this transaction ID."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter transactions on or after this ISO 8601 date."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter transactions on or before this ISO 8601 date."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of all transactions belonging to the specified account. Supports pagination and date range filtering."
+        },
+        {
+          "info": {
+            "name": "Get Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts/:account_id/transactions/:transaction_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              },
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path",
+                "description": "The transaction identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a single transaction by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

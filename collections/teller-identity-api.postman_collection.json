@@ -1,0 +1,220 @@
+{
+  "item": [
+    {
+      "id": "02f9f8a2-9cfa-46b5-b809-fd1a61a52f59",
+      "name": "Identity",
+      "description": {
+        "content": "Account holder identity information",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6b7a9c5f-ab44-4322-b012-992160342003",
+          "name": "List Account Identity",
+          "request": {
+            "name": "List Account Identity",
+            "description": {
+              "content": "Returns an array of accounts with beneficial owner identity information attached, including names, addresses, phone numbers, and email addresses.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "identity"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "API version header for requesting a specific version.",
+                "key": "Teller-Version",
+                "value": "2020-10-12"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "48ab5bbe-fd94-4971-b720-4a6be87bc928",
+              "name": "Identity information retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version header for requesting a specific version.",
+                    "key": "Teller-Version",
+                    "value": "2020-10-12"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"enrollment_id\": \"string\",\n    \"name\": \"string\",\n    \"last_four\": \"string\",\n    \"type\": \"money_market\",\n    \"subtype\": \"string\",\n    \"currency\": \"string\",\n    \"status\": \"open\",\n    \"institution\": {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    \"links\": {\n      \"self\": \"http://WlfOHwtRekpCnvcOIQMqjQv.pnuxJhXmp6K9kA7SxvkptKxWp,COelGWF7KFqZXaNJhstbGWAvFTx7WcQTGKtPJ\",\n      \"transactions\": \"http://a.knsjYQL4nStnEZFDJpk,HjF7BSFvEQGpi+s1sqOxWdfh\",\n      \"balances\": \"http://zwFPaBllnVwdfaqqnvoWbeagfz.apjTkhhw9ny1KcGNUopgwPlRUOm\",\n      \"details\": \"https://hlfGBdkdvpSGTMOBTgz.mirsv44URJCTvU,ezJhwtq3iaX06kxVFRnfz99jju.zm3LNy8mYKd\"\n    },\n    \"owners\": [\n      {\n        \"type\": \"unknown\",\n        \"names\": [\n          {\n            \"type\": \"alias\",\n            \"data\": \"string\"\n          },\n          {\n            \"type\": \"name\",\n            \"data\": \"string\"\n          }\n        ],\n        \"addresses\": [\n          {\n            \"primary\": true,\n            \"data\": {\n              \"street\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"city\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"region\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"postal_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"country\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          {\n            \"primary\": false,\n            \"data\": {\n              \"street\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"city\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"region\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"postal_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"country\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"phone_numbers\": [\n          {\n            \"type\": \"home\",\n            \"data\": \"string\"\n          },\n          {\n            \"type\": \"unknown\",\n            \"data\": \"string\"\n          }\n        ],\n        \"emails\": [\n          {\n            \"data\": \"QpSy6@SDSobkUoCsvaeToUMKAhV.xlb\"\n          },\n          {\n            \"data\": \"nGSYjrMmzg4b12@WYEAhpBNqIZeBIEQ.mzn\"\n          }\n        ]\n      },\n      {\n        \"type\": \"unknown\",\n        \"names\": [\n          {\n            \"type\": \"alias\",\n            \"data\": \"string\"\n          },\n          {\n            \"type\": \"alias\",\n            \"data\": \"string\"\n          }\n        ],\n        \"addresses\": [\n          {\n            \"primary\": true,\n            \"data\": {\n              \"street\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"city\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"region\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"postal_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"country\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          {\n            \"primary\": false,\n            \"data\": {\n              \"street\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"city\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"region\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"postal_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"country\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"phone_numbers\": [\n          {\n            \"type\": \"work\",\n            \"data\": \"string\"\n          },\n          {\n            \"type\": \"unknown\",\n            \"data\": \"string\"\n          }\n        ],\n        \"emails\": [\n          {\n            \"data\": \"ysa@eXJPVIUWY.dqic\"\n          },\n          {\n            \"data\": \"pKiZ46273F@EPJygNoCRmutcvKZjnOlsooAUA.jo\"\n          }\n        ]\n      }\n    ]\n  },\n  {\n    \"id\": \"string\",\n    \"enrollment_id\": \"string\",\n    \"name\": \"string\",\n    \"last_four\": \"string\",\n    \"type\": \"loan\",\n    \"subtype\": \"string\",\n    \"currency\": \"string\",\n    \"status\": \"open\",\n    \"institution\": {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    \"links\": {\n      \"self\": \"http://TcJoXCIQO.yiTeCRMwJDKdMGKBX2bD4leUH+QYBl\",\n      \"transactions\": \"https://KeFSKd.kmdCmmi5VRLnRb\",\n      \"balances\": \"http://uEwUbraJlHcPVJ.beu4oKsbTAaGwGz3,RcepsCD5YsKrl1G1vMNFFAUkQshfj\",\n      \"details\": \"https://EzXKqbHbmdVxcYBMyyDg.tscsx.nFytDh.XcHN-kyqUFabYFbCTOVQy3\"\n    },\n    \"owners\": [\n      {\n        \"type\": \"organization\",\n        \"names\": [\n          {\n            \"type\": \"alias\",\n            \"data\": \"string\"\n          },\n          {\n            \"type\": \"alias\",\n            \"data\": \"string\"\n          }\n        ],\n        \"addresses\": [\n          {\n            \"primary\": false,\n            \"data\": {\n              \"street\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"city\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"region\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"postal_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"country\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          {\n            \"primary\": false,\n            \"data\": {\n              \"street\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"city\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"region\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"postal_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"country\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"phone_numbers\": [\n          {\n            \"type\": \"unknown\",\n            \"data\": \"string\"\n          },\n          {\n            \"type\": \"home\",\n            \"data\": \"string\"\n          }\n        ],\n        \"emails\": [\n          {\n            \"data\": \"NLIMLEZ0N@bbNqoupLhwsuTrlbC.vxkr\"\n          },\n          {\n            \"data\": \"AmOM2CBIHyX@q.ql\"\n          }\n        ]\n      },\n      {\n        \"type\": \"unknown\",\n        \"names\": [\n          {\n            \"type\": \"name\",\n            \"data\": \"string\"\n          },\n          {\n            \"type\": \"name\",\n            \"data\": \"string\"\n          }\n        ],\n        \"addresses\": [\n          {\n            \"primary\": false,\n            \"data\": {\n              \"street\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"city\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"region\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"postal_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"country\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          {\n            \"primary\": false,\n            \"data\": {\n              \"street\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"city\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"region\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"postal_code\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"country\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ],\n        \"phone_numbers\": [\n          {\n            \"type\": \"work\",\n            \"data\": \"string\"\n          },\n          {\n            \"type\": \"work\",\n            \"data\": \"string\"\n          }\n        ],\n        \"emails\": [\n          {\n            \"data\": \"VZK@fYnvZhqImjLaXRLlM.fuhf\"\n          },\n          {\n            \"data\": \"rpsBoDRSGQBSCoE@OvLnyfTCtekpnmGBmBrTJufQz.batx\"\n          }\n        ]\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be0cd095-a9e5-4e2c-ad41-949afdb9d840",
+              "name": "Unauthorized - invalid or missing access token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version header for requesting a specific version.",
+                    "key": "Teller-Version",
+                    "value": "2020-10-12"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c072650e-2e6e-4d9d-85ef-10cc42aa1880",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "identity"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version header for requesting a specific version.",
+                    "key": "Teller-Version",
+                    "value": "2020-10-12"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.teller.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e6d4d4d9-aad9-44c3-947e-c1f1b5495dad",
+    "name": "Teller Accounts Identity API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Teller is a unified banking API providing real-time access to bank accounts, transactions, balances, identity data, and payment initiation across US financial institutions. Connect to thousands of banks and credit unions through a single integration. Teller uses mutual TLS (mTLS) for application authentication and access tokens obtained via Teller Connect for per-account authorization.\n\nContact Support:\n Name: Teller Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

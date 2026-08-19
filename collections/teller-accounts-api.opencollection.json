@@ -1,0 +1,146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Teller Accounts API",
+    "version": "2020-10-12"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts",
+            "headers": [
+              {
+                "name": "Teller-Version",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all bank accounts authorized by the current access token enrollment."
+        },
+        {
+          "info": {
+            "name": "Delete Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.teller.io/accounts",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes authorization to access all accounts in the enrollment. Does not delete the actual bank accounts."
+        },
+        {
+          "info": {
+            "name": "Get Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts/:account_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a single bank account by ID."
+        },
+        {
+          "info": {
+            "name": "Delete Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.teller.io/accounts/:account_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes authorization to access the specified account. Does not delete the actual bank account."
+        },
+        {
+          "info": {
+            "name": "Get Account Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts/:account_id/details",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve account details including routing number and account number for the specified bank account."
+        },
+        {
+          "info": {
+            "name": "Get Account Balances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.teller.io/accounts/:account_id/balances",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account identifier."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve current available and ledger balances for the specified account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
