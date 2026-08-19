@@ -21,7 +21,7 @@ description: >-
   Connect for per-account authorization.
 url: https://raw.githubusercontent.com/api-evangelist/teller/refs/heads/main/apis.yml
 modified: '2026-05-30'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 tags:
   - Banking
   - Financial Data
