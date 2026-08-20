@@ -25,6 +25,13 @@ specificationVersion: '0.23'
 tags:
   - Banking
   - Financial Data
+  - Fintech
+  - Open Banking
+  - Transaction
+  - Unified-API
+tags_raw:
+  - Banking
+  - Financial Data
   - FinTech
   - Open Banking
   - Transactions
@@ -36,6 +43,8 @@ apis:
   humanURL: https://teller.io/docs/api
   baseURL: https://api.teller.io
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -76,6 +85,8 @@ apis:
   humanURL: https://teller.io/docs/api
   baseURL: https://api.teller.io
   tags:
+  - institutions
+  tags_raw:
   - Institutions
   properties:
   - type: OpenAPI
@@ -96,6 +107,8 @@ apis:
   humanURL: https://teller.io/docs/api
   baseURL: https://api.teller.io
   tags:
+  - Transaction
+  tags_raw:
   - Transactions
   properties:
   - type: OpenAPI
