@@ -135,6 +135,9 @@ apis:
   - type: SDKs
     url: https://teller.io/docs/guides/sdks
 common:
+  - type: CapabilityMap
+    url: capabilities/teller-capability-edges.yml
+    name: Teller Business Capability Map
   - type: AgenticAccess
     url: agentic-access/teller-agentic-access.yml
   - type: DomainSecurity

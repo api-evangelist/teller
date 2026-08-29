@@ -1,0 +1,35 @@
+slug: teller
+provider: Teller
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Accounts
+  spec_file: teller-accounts-api-openapi.yml
+  capability_id: BC-1330.10
+  capability_id_l1: BC-1330
+  capability_name: Deposit Account Management
+  confidence: 0.75
+  evidence: GET /accounts/{account_id}/balances getAccountBalances; schemas Account, AccountDetails, AccountBalances
+  reason: Provides access to bank deposit account records, details and balances across US institutions
+    — deposit account information/servicing. Sub-capability slightly ambiguous (could be customer servicing),
+    so moderate confidence.
+- tag: Identity
+  spec_file: teller-identity-api-openapi.yml
+  capability_id: BC-1300.40
+  capability_id_l1: BC-1300
+  capability_name: Customer Information Management
+  confidence: 0.7
+  evidence: GET /identity listIdentity List Account Identity; schemas Owner, AccountIdentity
+  reason: Returns account owner identity data (names, contact details) attached to bank accounts — banking
+    customer information. Not a KYC decisioning surface, so mapped to customer information management
+    with moderate confidence.
