@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Teller Accounts Identity API
+  title: Teller Identity API
   description: Teller is a unified banking API providing real-time access to bank accounts, transactions, balances, identity data, and payment initiation across US financial institutions. Connect to thousands of banks and credit unions through a single integration. Teller uses mutual TLS (mTLS) for application authentication and access tokens obtained via Teller Connect for per-account authorization.
   version: 2020-10-12
   contact:
@@ -45,6 +45,66 @@ paths:
           description: Rate limit exceeded
 components:
   schemas:
+    AccountIdentity:
+      type: object
+      description: Account with attached owner identity information
+      allOf:
+      - $ref: '#/components/schemas/Account'
+      - type: object
+        properties:
+          owners:
+            type: array
+            items:
+              $ref: '#/components/schemas/Owner'
+    InstitutionRef:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Account:
+      type: object
+      description: A bank account enrolled via Teller Connect
+      properties:
+        id:
+          type: string
+          description: Teller's unique identifier for the account
+        enrollment_id:
+          type: string
+          description: Identifier for the enrollment (user session)
+        name:
+          type: string
+          description: Name of the account as reported by the institution
+        last_four:
+          type: string
+          description: Last four digits of the account number
+        type:
+          type: string
+          description: Account type
+          enum:
+          - checking
+          - savings
+          - credit_card
+          - money_market
+          - mortgage
+          - loan
+        subtype:
+          type: string
+          description: Account subtype
+        currency:
+          type: string
+          description: Currency code (e.g. USD)
+        status:
+          type: string
+          description: Account status
+          enum:
+          - open
+          - closed
+        institution:
+          $ref: '#/components/schemas/InstitutionRef'
+        links:
+          $ref: '#/components/schemas/AccountLinks'
     Owner:
       type: object
       description: Beneficial owner of a bank account
@@ -109,66 +169,6 @@ components:
               data:
                 type: string
                 format: email
-    InstitutionRef:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-    Account:
-      type: object
-      description: A bank account enrolled via Teller Connect
-      properties:
-        id:
-          type: string
-          description: Teller's unique identifier for the account
-        enrollment_id:
-          type: string
-          description: Identifier for the enrollment (user session)
-        name:
-          type: string
-          description: Name of the account as reported by the institution
-        last_four:
-          type: string
-          description: Last four digits of the account number
-        type:
-          type: string
-          description: Account type
-          enum:
-          - checking
-          - savings
-          - credit_card
-          - money_market
-          - mortgage
-          - loan
-        subtype:
-          type: string
-          description: Account subtype
-        currency:
-          type: string
-          description: Currency code (e.g. USD)
-        status:
-          type: string
-          description: Account status
-          enum:
-          - open
-          - closed
-        institution:
-          $ref: '#/components/schemas/InstitutionRef'
-        links:
-          $ref: '#/components/schemas/AccountLinks'
-    AccountIdentity:
-      type: object
-      description: Account with attached owner identity information
-      allOf:
-      - $ref: '#/components/schemas/Account'
-      - type: object
-        properties:
-          owners:
-            type: array
-            items:
-              $ref: '#/components/schemas/Owner'
     AccountLinks:
       type: object
       properties:

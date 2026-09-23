@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Teller Accounts Transactions API
+  title: Teller Transactions API
   description: Teller is a unified banking API providing real-time access to bank accounts, transactions, balances, identity data, and payment initiation across US financial institutions. Connect to thousands of banks and credit unions through a single integration. Teller uses mutual TLS (mTLS) for application authentication and access tokens obtained via Teller Connect for per-account authorization.
   version: 2020-10-12
   contact:
@@ -102,28 +102,6 @@ paths:
           description: Transaction not found
 components:
   schemas:
-    TransactionDetails:
-      type: object
-      properties:
-        processing_status:
-          type: string
-          enum:
-          - pending
-          - complete
-        category:
-          type: string
-          description: Transaction category (e.g. dining, groceries, utilities, travel, entertainment)
-        counterparty:
-          type: object
-          properties:
-            name:
-              type: string
-              description: Name of the merchant or counterparty
-            type:
-              type: string
-              enum:
-              - person
-              - organization
     Transaction:
       type: object
       description: A financial transaction on a bank account
@@ -179,6 +157,28 @@ components:
             account:
               type: string
               format: uri
+    TransactionDetails:
+      type: object
+      properties:
+        processing_status:
+          type: string
+          enum:
+          - pending
+          - complete
+        category:
+          type: string
+          description: Transaction category (e.g. dining, groceries, utilities, travel, entertainment)
+        counterparty:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the merchant or counterparty
+            type:
+              type: string
+              enum:
+              - person
+              - organization
   securitySchemes:
     BearerMtls:
       type: http

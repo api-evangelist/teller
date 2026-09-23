@@ -1,10 +1,7 @@
 {
   "provider": "teller",
   "sources": [
-    "teller-accounts-api-openapi.yml",
-    "teller-identity-api-openapi.yml",
-    "teller-institutions-api-openapi.yml",
-    "teller-transactions-api-openapi.yml"
+    "_original/teller-openapi.yml"
   ],
   "outputs": [
     "teller-accounts-api-openapi.yml",
@@ -15,6 +12,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "teller-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "teller-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "teller-identity-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "teller-institutions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "teller-transactions-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

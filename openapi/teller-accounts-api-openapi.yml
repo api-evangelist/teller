@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Teller Accounts API
   description: Teller is a unified banking API providing real-time access to bank accounts, transactions, balances, identity data, and payment initiation across US financial institutions. Connect to thousands of banks and credit unions through a single integration. Teller uses mutual TLS (mTLS) for application authentication and access tokens obtained via Teller Connect for per-account authorization.
@@ -160,6 +160,52 @@ paths:
           description: Account not found
 components:
   schemas:
+    AccountBalances:
+      type: object
+      description: Current account balance information
+      properties:
+        account_id:
+          type: string
+        available:
+          type: string
+          description: Available balance as a string decimal
+        ledger:
+          type: string
+          description: Ledger/posted balance as a string decimal
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              format: uri
+            account:
+              type: string
+              format: uri
+    InstitutionRef:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    AccountDetails:
+      type: object
+      description: Sensitive account details including routing and account numbers
+      properties:
+        account_id:
+          type: string
+        account_number:
+          type: string
+          description: Full account number
+        routing_numbers:
+          type: object
+          properties:
+            ach:
+              type: string
+              description: ACH routing number
+            wire:
+              type: string
+              description: Wire transfer routing number
     Account:
       type: object
       description: A bank account enrolled via Teller Connect
@@ -202,52 +248,6 @@ components:
           $ref: '#/components/schemas/InstitutionRef'
         links:
           $ref: '#/components/schemas/AccountLinks'
-    AccountBalances:
-      type: object
-      description: Current account balance information
-      properties:
-        account_id:
-          type: string
-        available:
-          type: string
-          description: Available balance as a string decimal
-        ledger:
-          type: string
-          description: Ledger/posted balance as a string decimal
-        links:
-          type: object
-          properties:
-            self:
-              type: string
-              format: uri
-            account:
-              type: string
-              format: uri
-    AccountDetails:
-      type: object
-      description: Sensitive account details including routing and account numbers
-      properties:
-        account_id:
-          type: string
-        account_number:
-          type: string
-          description: Full account number
-        routing_numbers:
-          type: object
-          properties:
-            ach:
-              type: string
-              description: ACH routing number
-            wire:
-              type: string
-              description: Wire transfer routing number
-    InstitutionRef:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
     AccountLinks:
       type: object
       properties:
