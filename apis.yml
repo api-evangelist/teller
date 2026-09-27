@@ -40,7 +40,7 @@ tags:
   - Fintech
   - Open Banking
   - Transaction
-  - Unified-API
+  - Unified API
 tags_raw:
   - Banking
   - Financial Data
@@ -48,6 +48,7 @@ tags_raw:
   - Open Banking
   - Transactions
   - Unified API
+  - Unified-API
 apis:
 - aid: teller:teller-accounts-api
   name: Teller Accounts API

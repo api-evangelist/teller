@@ -45,6 +45,13 @@ paths:
           description: Rate limit exceeded
 components:
   schemas:
+    InstitutionRef:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
     AccountIdentity:
       type: object
       description: Account with attached owner identity information
@@ -56,13 +63,21 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Owner'
-    InstitutionRef:
+    AccountLinks:
       type: object
       properties:
-        id:
+        self:
           type: string
-        name:
+          format: uri
+        transactions:
           type: string
+          format: uri
+        balances:
+          type: string
+          format: uri
+        details:
+          type: string
+          format: uri
     Account:
       type: object
       description: A bank account enrolled via Teller Connect
@@ -169,21 +184,6 @@ components:
               data:
                 type: string
                 format: email
-    AccountLinks:
-      type: object
-      properties:
-        self:
-          type: string
-          format: uri
-        transactions:
-          type: string
-          format: uri
-        balances:
-          type: string
-          format: uri
-        details:
-          type: string
-          format: uri
   securitySchemes:
     BearerMtls:
       type: http

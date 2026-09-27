@@ -188,24 +188,21 @@ components:
           type: string
         name:
           type: string
-    AccountDetails:
+    AccountLinks:
       type: object
-      description: Sensitive account details including routing and account numbers
       properties:
-        account_id:
+        self:
           type: string
-        account_number:
+          format: uri
+        transactions:
           type: string
-          description: Full account number
-        routing_numbers:
-          type: object
-          properties:
-            ach:
-              type: string
-              description: ACH routing number
-            wire:
-              type: string
-              description: Wire transfer routing number
+          format: uri
+        balances:
+          type: string
+          format: uri
+        details:
+          type: string
+          format: uri
     Account:
       type: object
       description: A bank account enrolled via Teller Connect
@@ -248,21 +245,24 @@ components:
           $ref: '#/components/schemas/InstitutionRef'
         links:
           $ref: '#/components/schemas/AccountLinks'
-    AccountLinks:
+    AccountDetails:
       type: object
+      description: Sensitive account details including routing and account numbers
       properties:
-        self:
+        account_id:
           type: string
-          format: uri
-        transactions:
+        account_number:
           type: string
-          format: uri
-        balances:
-          type: string
-          format: uri
-        details:
-          type: string
-          format: uri
+          description: Full account number
+        routing_numbers:
+          type: object
+          properties:
+            ach:
+              type: string
+              description: ACH routing number
+            wire:
+              type: string
+              description: Wire transfer routing number
   securitySchemes:
     BearerMtls:
       type: http
