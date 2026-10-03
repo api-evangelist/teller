@@ -102,6 +102,28 @@ paths:
           description: Transaction not found
 components:
   schemas:
+    TransactionDetails:
+      type: object
+      properties:
+        processing_status:
+          type: string
+          enum:
+          - pending
+          - complete
+        category:
+          type: string
+          description: Transaction category (e.g. dining, groceries, utilities, travel, entertainment)
+        counterparty:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the merchant or counterparty
+            type:
+              type: string
+              enum:
+              - person
+              - organization
     Transaction:
       type: object
       description: A financial transaction on a bank account
@@ -157,28 +179,6 @@ components:
             account:
               type: string
               format: uri
-    TransactionDetails:
-      type: object
-      properties:
-        processing_status:
-          type: string
-          enum:
-          - pending
-          - complete
-        category:
-          type: string
-          description: Transaction category (e.g. dining, groceries, utilities, travel, entertainment)
-        counterparty:
-          type: object
-          properties:
-            name:
-              type: string
-              description: Name of the merchant or counterparty
-            type:
-              type: string
-              enum:
-              - person
-              - organization
   securitySchemes:
     BearerMtls:
       type: http

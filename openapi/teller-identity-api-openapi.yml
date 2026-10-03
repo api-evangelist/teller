@@ -52,17 +52,6 @@ components:
           type: string
         name:
           type: string
-    AccountIdentity:
-      type: object
-      description: Account with attached owner identity information
-      allOf:
-      - $ref: '#/components/schemas/Account'
-      - type: object
-        properties:
-          owners:
-            type: array
-            items:
-              $ref: '#/components/schemas/Owner'
     AccountLinks:
       type: object
       properties:
@@ -78,48 +67,6 @@ components:
         details:
           type: string
           format: uri
-    Account:
-      type: object
-      description: A bank account enrolled via Teller Connect
-      properties:
-        id:
-          type: string
-          description: Teller's unique identifier for the account
-        enrollment_id:
-          type: string
-          description: Identifier for the enrollment (user session)
-        name:
-          type: string
-          description: Name of the account as reported by the institution
-        last_four:
-          type: string
-          description: Last four digits of the account number
-        type:
-          type: string
-          description: Account type
-          enum:
-          - checking
-          - savings
-          - credit_card
-          - money_market
-          - mortgage
-          - loan
-        subtype:
-          type: string
-          description: Account subtype
-        currency:
-          type: string
-          description: Currency code (e.g. USD)
-        status:
-          type: string
-          description: Account status
-          enum:
-          - open
-          - closed
-        institution:
-          $ref: '#/components/schemas/InstitutionRef'
-        links:
-          $ref: '#/components/schemas/AccountLinks'
     Owner:
       type: object
       description: Beneficial owner of a bank account
@@ -184,6 +131,59 @@ components:
               data:
                 type: string
                 format: email
+    AccountIdentity:
+      type: object
+      description: Account with attached owner identity information
+      allOf:
+      - $ref: '#/components/schemas/Account'
+      - type: object
+        properties:
+          owners:
+            type: array
+            items:
+              $ref: '#/components/schemas/Owner'
+    Account:
+      type: object
+      description: A bank account enrolled via Teller Connect
+      properties:
+        id:
+          type: string
+          description: Teller's unique identifier for the account
+        enrollment_id:
+          type: string
+          description: Identifier for the enrollment (user session)
+        name:
+          type: string
+          description: Name of the account as reported by the institution
+        last_four:
+          type: string
+          description: Last four digits of the account number
+        type:
+          type: string
+          description: Account type
+          enum:
+          - checking
+          - savings
+          - credit_card
+          - money_market
+          - mortgage
+          - loan
+        subtype:
+          type: string
+          description: Account subtype
+        currency:
+          type: string
+          description: Currency code (e.g. USD)
+        status:
+          type: string
+          description: Account status
+          enum:
+          - open
+          - closed
+        institution:
+          $ref: '#/components/schemas/InstitutionRef'
+        links:
+          $ref: '#/components/schemas/AccountLinks'
   securitySchemes:
     BearerMtls:
       type: http
