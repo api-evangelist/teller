@@ -45,28 +45,6 @@ paths:
           description: Rate limit exceeded
 components:
   schemas:
-    InstitutionRef:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-    AccountLinks:
-      type: object
-      properties:
-        self:
-          type: string
-          format: uri
-        transactions:
-          type: string
-          format: uri
-        balances:
-          type: string
-          format: uri
-        details:
-          type: string
-          format: uri
     Owner:
       type: object
       description: Beneficial owner of a bank account
@@ -131,17 +109,6 @@ components:
               data:
                 type: string
                 format: email
-    AccountIdentity:
-      type: object
-      description: Account with attached owner identity information
-      allOf:
-      - $ref: '#/components/schemas/Account'
-      - type: object
-        properties:
-          owners:
-            type: array
-            items:
-              $ref: '#/components/schemas/Owner'
     Account:
       type: object
       description: A bank account enrolled via Teller Connect
@@ -184,6 +151,39 @@ components:
           $ref: '#/components/schemas/InstitutionRef'
         links:
           $ref: '#/components/schemas/AccountLinks'
+    InstitutionRef:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    AccountIdentity:
+      type: object
+      description: Account with attached owner identity information
+      allOf:
+      - $ref: '#/components/schemas/Account'
+      - type: object
+        properties:
+          owners:
+            type: array
+            items:
+              $ref: '#/components/schemas/Owner'
+    AccountLinks:
+      type: object
+      properties:
+        self:
+          type: string
+          format: uri
+        transactions:
+          type: string
+          format: uri
+        balances:
+          type: string
+          format: uri
+        details:
+          type: string
+          format: uri
   securitySchemes:
     BearerMtls:
       type: http

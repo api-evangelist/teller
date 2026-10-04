@@ -160,46 +160,6 @@ paths:
           description: Account not found
 components:
   schemas:
-    InstitutionRef:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-    AccountLinks:
-      type: object
-      properties:
-        self:
-          type: string
-          format: uri
-        transactions:
-          type: string
-          format: uri
-        balances:
-          type: string
-          format: uri
-        details:
-          type: string
-          format: uri
-    AccountDetails:
-      type: object
-      description: Sensitive account details including routing and account numbers
-      properties:
-        account_id:
-          type: string
-        account_number:
-          type: string
-          description: Full account number
-        routing_numbers:
-          type: object
-          properties:
-            ach:
-              type: string
-              description: ACH routing number
-            wire:
-              type: string
-              description: Wire transfer routing number
     Account:
       type: object
       description: A bank account enrolled via Teller Connect
@@ -242,6 +202,46 @@ components:
           $ref: '#/components/schemas/InstitutionRef'
         links:
           $ref: '#/components/schemas/AccountLinks'
+    InstitutionRef:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    AccountDetails:
+      type: object
+      description: Sensitive account details including routing and account numbers
+      properties:
+        account_id:
+          type: string
+        account_number:
+          type: string
+          description: Full account number
+        routing_numbers:
+          type: object
+          properties:
+            ach:
+              type: string
+              description: ACH routing number
+            wire:
+              type: string
+              description: Wire transfer routing number
+    AccountLinks:
+      type: object
+      properties:
+        self:
+          type: string
+          format: uri
+        transactions:
+          type: string
+          format: uri
+        balances:
+          type: string
+          format: uri
+        details:
+          type: string
+          format: uri
     AccountBalances:
       type: object
       description: Current account balance information
