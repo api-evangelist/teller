@@ -1,4 +1,4 @@
-# Teller (teller)
+# Teller
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,64 +66,175 @@
 
 Teller is a unified banking API providing real-time access to bank accounts, transactions, balances, identity data, and payment initiation across US financial institutions. Connect to thousands of banks and credit unions through a single integration. Teller uses mutual TLS (mTLS) for application authentication and access tokens obtained via Teller Connect for per-account authorization.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/teller/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/teller/refs/heads/main/apis.yml)
+**Areas:** Banking · Financial Data · Fintech · Open Banking · Transaction · Unified API
 
-## Tags
+## Teller on APIs.io
 
-- Banking
-- Financial Data
-- FinTech
-- Open Banking
-- Transactions
-- Unified API
+Everything profiled for Teller is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/teller/](https://apis.io/providers/teller/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (4)
 
-- **Modified:** 2026-05-30
+- [Teller Accounts API](https://apis.io/apis/teller/teller-accounts-api/) — Bank account management
+- [Teller Identity API](https://apis.io/apis/teller/teller-identity-api/) — Account holder identity information
+- [Teller Institutions API](https://apis.io/apis/teller/teller-institutions-api/) — Supported financial institutions
+- [Teller Transactions API](https://apis.io/apis/teller/teller-transactions-api/) — Account transaction history
 
-## APIs
+### Published properties
 
-### Teller API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Unified banking API for real-time access to accounts, transactions, balances, and identity data across US financial institutions. Supports account management, transaction history, balance retrieval, and account holder identity verification via a single REST API secured with mTLS and per-user access tokens.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://teller.io/docs/api](https://teller.io/docs/api)
-- **Base URL:** `https://api.teller.io`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Teller Webhooks](https://apis.io/asyncapis/teller/teller-webhooks-asyncapi/)
 
-- Accounts
-- Balance
-- Banking
-- Financial Data
-- Identity
-- Open Banking
-- Transactions
+#### Event channels (1)
 
-#### Properties
+Individual events and webhooks the provider emits.
 
-- [Documentation](https://teller.io/docs/api)
-- [OpenAPI](openapi/teller-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/teller.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/teller.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/teller-webhooks-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [Getting Started](https://teller.io/docs/guides/quickstart)
-- [Authentication](https://teller.io/docs/api/authentication)
-- [SDK](https://teller.io/docs/guides/sdks)
+- [webhooks](https://apis.io/channels/teller/webhooks/)
 
-## Common Properties
+#### Agentic access (1)
 
-- [LinkedIn](https://www.linkedin.com/company/hello-teller)
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Teller Agentic Access](https://apis.io/agentic-access/teller/teller-agentic-access/)
+
+#### JSON Schema (2)
+
+The data models the API reads and writes.
+
+- [Teller Account](https://apis.io/schemas/teller/teller-account/)
+- [Teller Transaction](https://apis.io/schemas/teller/teller-transaction/)
+
+#### JSON Structure (1)
+
+Data models expressed in JSON Structure.
+
+- [Teller Banking Structure](https://apis.io/json-structure/teller/teller-banking-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Teller Context](https://apis.io/jsonld/teller/teller-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Teller Vocabulary](https://apis.io/vocabularies/teller/teller-vocabulary/)
+
+#### Examples (3)
+
+Example requests and responses.
+
+- [Teller Get Balances Example](https://apis.io/examples/teller/teller-get-balances-example/)
+- [Teller List Accounts Example](https://apis.io/examples/teller/teller-list-accounts-example/)
+- [Teller List Transactions Example](https://apis.io/examples/teller/teller-list-transactions-example/)
+
+#### Collections (5)
+
+Postman and Open Collection request collections.
+
+- [Teller API](https://apis.io/collections/teller/open-teller/)
+- [Teller Accounts API](https://apis.io/collections/teller/open-teller-accounts-api/)
+- [Teller Accounts Identity API](https://apis.io/collections/teller/open-teller-identity-api/)
+- [Teller Accounts Institutions API](https://apis.io/collections/teller/open-teller-institutions-api/)
+- [Teller Accounts Transactions API](https://apis.io/collections/teller/open-teller-transactions-api/)
+
+#### Governance rules (3)
+
+Spectral rulesets for the provider's contracts.
+
+- [Teller — asyncapi rules](https://apis.io/rules/teller/teller-asyncapi-spectral-rules/)
+- [Teller — jsonschema rules](https://apis.io/rules/teller/teller-jsonschema-spectral-rules/)
+- [Teller API Rules](https://apis.io/rules/teller/teller-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Teller Authentication](https://apis.io/security/teller/teller-authentication/)
+- [Teller Domain Security](https://apis.io/security/teller/teller-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Teller Plans Pricing](https://apis.io/plans/teller/teller-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Teller Rate Limits](https://apis.io/rate-limits/teller/teller-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Teller Finops](https://apis.io/finops/teller/teller-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://teller.io/)
 - [Documentation](https://teller.io/docs)
-- [Developer  Portal](https://teller.io/docs/api)
-- [GitHub Organization](https://github.com/tellerhq)
-- [SDK](https://github.com/tellerhq/teller-ruby)
-- [SDK](https://github.com/tellerhq/teller-connect-react)
-- [SDK](https://github.com/tellerhq/iOS-SDK)
-- [SDK](https://github.com/tellerhq/teller-connect-android)
+- [Blog](https://teller.io/blog)
+- [GitHub](https://github.com/tellerhq)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 37.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 60.8 |
+| Contract governance | 13.6 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 61.9 |
+| Access clarity | 7.9 |
+
+**Agent readiness 19.0** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 13.4** — Banking & Open Finance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/teller/](https://apis.io/providers/teller/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Teller: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/teller/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
